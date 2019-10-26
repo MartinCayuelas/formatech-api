@@ -45,9 +45,9 @@ app.use(connectDatadog(dd_options));
 
 
 // router
-var api = require("./routes/router");
+var api = require('./routes/router');
 // routes
-app.use("/api/", api);
+app.use('/api/', api);
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
