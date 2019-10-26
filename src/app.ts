@@ -43,7 +43,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(connectDatadog(dd_options));
 
-
 // router
 var api = require('./routes/router');
 // routes
@@ -51,7 +50,7 @@ app.use('/api/', api);
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
-  res.send('Hello World');
+  res.send('Welckome to the API of Formatech');
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Formatech-api app listening on port ${port}!`));
