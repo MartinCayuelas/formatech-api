@@ -1,7 +1,7 @@
 {
-  "name": "admitech",
+  "name": "formatech",
   "version": "0.0.1",
-  "description": "Recrutment platform for IG & DO courses in Polytech Montpellier",
+  "description": "Informations for IG & DO courses in Polytech Montpellier",
   "main": "lib/app.js",
   "scripts": {
     "start": "node lib/app.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThomasF34/admitech.git"
+    "url": "git+https://github.com/MartinCayuelas/formatech.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThomasF34/admitech/issues"
+    "url": "https://github.com/MartinCayuelas/formatech/issues"
   },
-  "homepage": "https://github.com/ThomasF34/admitech#readme",
+  "homepage": "https://github.com/MartinCayuelas/formatech#readme",
   "dependencies": {
     "connect-datadog": "0.0.9",
     "express": "^4.17.1",
