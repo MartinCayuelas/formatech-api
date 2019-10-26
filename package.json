@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MartinCayuelas/formatech.git"
+    "url": "git+https://github.com/MartinCayuelas/formatech-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MartinCayuelas/formatech/issues"
+    "url": "https://github.com/MartinCayuelas/formatech-api/issues"
   },
-  "homepage": "https://github.com/MartinCayuelas/formatech#readme",
+  "homepage": "https://github.com/MartinCayuelas/formatech-api#readme",
   "dependencies": {
     "connect-datadog": "0.0.9",
     "express": "^4.17.1",
