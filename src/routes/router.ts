@@ -2,7 +2,8 @@ const express = require('express');
 const router = express();
 
 // Routes
-const home = require('./home');
-router.use('/accueil', home);
+router.use('/accueil', require('./home'));
+router.use('/ig', require('./ig'));
+router.use('/do', require('./do'));
 
 module.exports = router;
