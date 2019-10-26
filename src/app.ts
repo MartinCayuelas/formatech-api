@@ -45,7 +45,7 @@ app.use(connectDatadog(dd_options));
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
-  res.send('Hello World in test mode!');
+  res.send('Hello World');
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
