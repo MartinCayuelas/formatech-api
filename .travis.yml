@@ -1,25 +1,22 @@
 language: node_js
 node_js: 12
-
 cache:
   directories:
   - "$HOME/.sonar/cache"
 addons:
   sonarcloud:
     organization: admitech
-
 stages:
-  - tests
-  - name: deploy
-    if: branch =~ /^(master|dev)$/
-
+- tests
+- name: deploy
+  if: branch =~ /^(master|dev)$/
 jobs:
   include:
   - stage: tests
     name: tests and sonar analysis
     script:
-      - npm test
-      - sonar-scanner -D sonar.login=$SONAR_TOKEN
+    - npm test
+    - sonar-scanner -D sonar.login=$SONAR_TOKEN
   - stage: tests
     name: lint
     script: npm run lint
@@ -30,21 +27,18 @@ jobs:
     name: :ship:to dokku
     script: skip
     before_deploy:
-    - openssl aes-256-cbc -K $encrypted_7d71b9d7d791_key -iv $encrypted_7d71b9d7d791_iv -in deploy.key.enc -out deploy.key -d
+    - openssl aes-256-cbc -K $encrypted_28d638090c3a_key -iv $encrypted_28d638090c3a_iv -in deploy.key.enc -out deploy.key -d
     deploy:
-      - provider: script
-        skip_cleanup: true
-        script: bash .travis/deploy.sh staging
-        on:
-          branch: dev
-      - provider: script
-        skip_cleanup: true
-        script: bash .travis/deploy.sh production
-        on:
-          branch: master
-
-
+    - provider: script
+      skip_cleanup: true
+      script: bash .travis/deploy.sh staging
+      on:
+        branch: dev
+    - provider: script
+      skip_cleanup: true
+      script: bash .travis/deploy.sh production
+      on:
+        branch: master
 env:
   global:
     secure: wjZiUm8kxiCF95LT2II/6knA8EMGdffGnwtSe3tmB8VkfmynQrUOtu47yalc0yI8Qlj2gKxO4W5qv3/tC7R+wqow4NbFgOWdp7AzdK+MnBXVMuTVVETFlv9oJ3sUEa13tpl0FOJ3cXKdEBrq1+yqynrr1+HNKnUjHBDx5emQINgms85nOWZOVI9qh93DqdPw+EWMddQ2MLqywS5etpuZYPZhAplQTAzkvdrjHwOiAdwQ6cAv8xyrx9LvfmXa8a5xvXVRVsfMNm5nXKOppUjmRMfIebSSmDiCHaIUOno98r2oZFkBSBtfokSFr/P883+fOBU0cMvQek8NaYmGeoDqO/rD2UDnJw9y/F6HsZQhmb/KzzyiERVT08mGU1QA4R3PBMawFrf5VyvZs6TayYGzUUpZUJh/ebVjaL5H+p2Vin5cmiW5fRzjyyUTE5sCAHNQZkxvtr7P+wdzqBRJJlMmRQKjMgHHrCawojt8vP9o2xaNJNMvdX/aF+tUZIEBltna3ry9KR/PWX2kxQOttwJWbgqdBjRW1L1OOVeihfGhwNpt2zw1HwJOpzQfrx4ShbWuPB8xnJMUoEWI9W3sYDD66gNOw8BEwrnmJFKrQK2/TMGfDlM4c5POEKrkaWkz7Lu9c1jjwdhqnXjwD159vBYqsRSEp+S36n6bzGtMbQVN2Ro=
-
