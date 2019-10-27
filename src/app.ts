@@ -1,6 +1,7 @@
 import express from 'express';
 import { createLogger, format, transports } from 'winston';
 import connectDatadog from 'connect-datadog';
+const cors = require('cors');
 
 const dd_options = {
   'response_code': true,
@@ -47,6 +48,7 @@ app.use(connectDatadog(dd_options));
 var api = require('./routes/router');
 // routes
 app.use('/api/', api);
+app.use(cors());
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');

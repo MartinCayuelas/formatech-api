@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/MartinCayuelas/formatech-api#readme",
   "dependencies": {
+    "@types/cors": "^2.8.6",
     "connect-datadog": "0.0.9",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "sequelize": "^5.21.1",
     "winston": "^3.2.1"

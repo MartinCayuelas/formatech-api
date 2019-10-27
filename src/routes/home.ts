@@ -7,4 +7,6 @@ homeRouter.get('/', (req: any, res: any) => {
   res.json('Accueil depuis le back!');
 });
 
+
+
 module.exports = homeRouter;
