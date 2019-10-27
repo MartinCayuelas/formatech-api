@@ -3,6 +3,8 @@ import { createLogger, format, transports } from 'winston';
 import connectDatadog from 'connect-datadog';
 import cors from 'cors';
 
+const bodyParser = require("body-parser");
+
 const dd_options = {
   'response_code': true,
   'tags': ['app:api-formatech']
@@ -48,8 +50,12 @@ app.use(connectDatadog(dd_options));
 var api = require('./routes/router');
 // routes
 app.use('/api/', api);
+
+
 app.use(cors());
 app.options("*", cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');

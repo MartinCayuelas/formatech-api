@@ -21,6 +21,7 @@
   "homepage": "https://github.com/MartinCayuelas/formatech-api#readme",
   "dependencies": {
     "@types/cors": "^2.8.6",
+    "body-parser": "^1.19.0",
     "connect-datadog": "0.0.9",
     "cors": "^2.8.5",
     "express": "^4.17.1",
