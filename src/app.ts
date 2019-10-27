@@ -1,7 +1,9 @@
 import express from 'express';
 import { createLogger, format, transports } from 'winston';
 import connectDatadog from 'connect-datadog';
-const cors = require('cors');
+import cors from 'cors';
+import helmet from 'helmet'
+import bodyParser from 'body-parser';
 
 const dd_options = {
   'response_code': true,
@@ -48,11 +50,17 @@ app.use(connectDatadog(dd_options));
 var api = require('./routes/router');
 // routes
 app.use('/api/', api);
+
+
 app.use(cors());
+app.options("*", cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(helmet());
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
-  res.send('Welckome to the API of Formatech');
+  res.send('Welcome to the API of Formatech');
 });
 
 app.listen(port, () => console.log(`Formatech-api app listening on port ${port}!`));
