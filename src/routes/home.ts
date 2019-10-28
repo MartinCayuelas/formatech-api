@@ -16,7 +16,7 @@ homeRouter.put('/modifier/:id', (req: any, res: any) => {
   updateElemInHome(req, res);
 });
 
-//Get a text from the API and send it
+//DELETE an elem with a given id
 homeRouter.delete('/supprimer/:id', (req: any, res: any) => {
   res.type('application/json');
   deleteElemInHome(req, res);
