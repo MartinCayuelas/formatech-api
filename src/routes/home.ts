@@ -6,7 +6,7 @@ const homeRouter = require('express').Router();
 homeRouter.get('/', (req: any, res: any) => {
   res.type('application/json');
   res.status(200);
-  displayHome(req, res); //A voir comment on gère ça plus propre
+  displayHome(req, res);
 });
 
 module.exports = homeRouter;
