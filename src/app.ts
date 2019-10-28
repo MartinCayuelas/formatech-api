@@ -15,7 +15,6 @@ const dd_options = {
 const app = express();
 const port = process.env.SERVERPORT;
 
-
 // Logger creation
 const logger = createLogger({
   level: 'info',
@@ -57,7 +56,7 @@ app.use('/api/', api);
 app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
 app.get('/', (req, res) => {
