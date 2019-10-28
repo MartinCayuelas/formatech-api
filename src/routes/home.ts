@@ -13,8 +13,6 @@ homeRouter.get('/', (req: any, res: any) => {
 homeRouter.put('/modifier/:id', (req: any, res: any) => {
   res.type('application/json');
   res.sendStatus(200);
-  console.log(req.body)
-  console.log(req.data)
   updateElemInHome(req, res);
 });
 
