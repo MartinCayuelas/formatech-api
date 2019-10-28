@@ -22,7 +22,7 @@ jobs:
     script: npm run lint
   - stage: tests
     name: compile
-    script: npm build
+    script: npm run build
   - stage: deploy
     name: :ship:to dokku
     script: skip
