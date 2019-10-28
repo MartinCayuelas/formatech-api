@@ -4,6 +4,8 @@ import connectDatadog from 'connect-datadog';
 import cors from 'cors';
 import helmet from 'helmet'
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const dd_options = {
   'response_code': true,
@@ -11,7 +13,7 @@ const dd_options = {
 };
 
 const app = express();
-const port = 3000;
+const port = process.env.SERVERPORT;
 
 
 // Logger creation
