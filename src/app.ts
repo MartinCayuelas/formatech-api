@@ -15,6 +15,12 @@ const dd_options = {
 const app = express();
 const port = process.env.SERVERPORT;
 
+app.use(cors());
+app.options("*", cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
+
 
 // Logger creation
 const logger = createLogger({
@@ -54,11 +60,6 @@ var api = require('./routes/router');
 app.use('/api/', api);
 
 
-app.use(cors());
-app.options("*", cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(helmet());
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
