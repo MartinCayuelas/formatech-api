@@ -2,8 +2,8 @@ const database = require('../config/database');
 import Sequelize from 'sequelize';
 
 //Define -> name of the table
-const Home = database.sequelize.define('Home', {
-  idHome: {
+const Do = database.sequelize.define('Do', {
+  idDo: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
@@ -22,4 +22,4 @@ const Home = database.sequelize.define('Home', {
   freezeTableName: true
 });
 
-module.exports = Home;
+module.exports = Do;

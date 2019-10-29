@@ -1,11 +1,30 @@
-const homeRouter = require('express').Router();
+import { displayHome, updateElemInHome, deleteElemInHome, addElementInHome } from '../controllers/homeController';
 
+const homeRouter = require('express').Router();
 
 //Get a text from the API and send it
 homeRouter.get('/', (req: any, res: any) => {
+  
+  displayHome(req, res);
+});
+
+//Insert in the DB
+homeRouter.post('/', (req: any, res: any) => {
   res.type('application/json');
-  res.status(200);
-  res.json('Accueil depuis le back!');
+  addElementInHome(req, res);
+});
+
+
+//Update in the DB
+homeRouter.put('/modifier/:id', (req: any, res: any) => {
+  res.type('application/json');
+  updateElemInHome(req, res);
+});
+
+//DELETE an elem with a given id
+homeRouter.delete('/supprimer/:id', (req: any, res: any) => {
+  res.type('application/json');
+  deleteElemInHome(req, res);
 });
 
 

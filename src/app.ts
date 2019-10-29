@@ -4,6 +4,8 @@ import connectDatadog from 'connect-datadog';
 import cors from 'cors';
 import helmet from 'helmet'
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const dd_options = {
   'response_code': true,
@@ -11,7 +13,13 @@ const dd_options = {
 };
 
 const app = express();
-const port = 3000;
+const port = process.env.SERVERPORT;
+
+app.use(cors());
+app.options("*", cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
 
 
 // Logger creation
@@ -52,11 +60,6 @@ var api = require('./routes/router');
 app.use('/api/', api);
 
 
-app.use(cors());
-app.options("*", cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(helmet());
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');

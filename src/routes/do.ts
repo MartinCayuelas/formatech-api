@@ -1,20 +1,31 @@
+import { displayDO, deleteElemInDO, addElementInDO, updateElemInDO } from '../controllers/doController';
+
 const doRouter = require('express').Router();
 
 //Get a text from the API and send it
 doRouter.get('/', (req: any, res: any) => {
+  displayDO(req, res);
+});
+
+//Insert in the DB
+doRouter.post('/', (req: any, res: any) => {
   res.type('application/json');
-  res.status(200);
-  res.json('DO section!');
+  addElementInDO(req, res);
 });
 
 
-//Get a text from the API and send it
-doRouter.get('/presentation', (req: any, res: any) => {
+//Update in the DB
+doRouter.put('/modifier/:id', (req: any, res: any) => {
   res.type('application/json');
-  res.status(200);
-  res.json('Présentation DO!');
+  updateElemInDO(req, res);
 });
 
+
+//DELETE an elem with a given id
+doRouter.delete('/supprimer/:id', (req: any, res: any) => {
+  res.type('application/json');
+  deleteElemInDO(req, res);
+});
 
 
 
