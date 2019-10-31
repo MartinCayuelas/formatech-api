@@ -57,5 +57,3 @@ export const deleteElemInHome = async (req: any, res: any) => {
     }
   });
 };
-
-

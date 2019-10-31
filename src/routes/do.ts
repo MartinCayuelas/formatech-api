@@ -13,7 +13,6 @@ doRouter.post('/', (req: any, res: any) => {
   addElementInDO(req, res);
 });
 
-
 //Update in the DB
 doRouter.put('/modifier/:id', (req: any, res: any) => {
   res.type('application/json');

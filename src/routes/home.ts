@@ -4,7 +4,6 @@ const homeRouter = require('express').Router();
 
 //Get a text from the API and send it
 homeRouter.get('/', (req: any, res: any) => {
-  
   displayHome(req, res);
 });
 
@@ -13,7 +12,6 @@ homeRouter.post('/', (req: any, res: any) => {
   res.type('application/json');
   addElementInHome(req, res);
 });
-
 
 //Update in the DB
 homeRouter.put('/modifier/:id', (req: any, res: any) => {
