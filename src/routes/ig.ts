@@ -9,20 +9,17 @@ igRouter.get('/', (req: any, res: any) => {
   displayIG(req, res);
 });
 
-
 //Insert in the DB
 igRouter.post('/', (req: any, res: any) => {
   res.type('application/json');
   addElementInIg(req, res);
 });
 
-
 //Update in the DB
 igRouter.put('/modifier/:id', (req: any, res: any) => {
   res.type('application/json');
   updateElemInIg(req, res);
 });
-
 
 //DELETE an elem with a given id
 igRouter.delete('/supprimer/:id', (req: any, res: any) => {
