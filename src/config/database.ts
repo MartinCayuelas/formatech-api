@@ -15,7 +15,9 @@ const connection = {
   port: process.env.DB_PORT,
 };
 
-sequelize = new Sequelize('' + connection.dialect + '://' + connection.username + ':' + connection.password + '@' + connection.host + ':' + connection.port + '/' + connection.database + '', {});
+const dbUrl = '' + connection.dialect + '://' + connection.username + ':' + connection.password + '@' + connection.host + ':' + connection.port + '/' + connection.database + '';
+
+sequelize = new Sequelize(dbUrl || process.env.DATABASE_URL, {});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
