@@ -26,6 +26,7 @@
     "@types/helmet": "0.0.44",
     "@types/mysql": "^2.15.7",
     "@types/sequelize": "^4.28.6",
+    "@types/url-parse": "^1.4.3",
     "body-parser": "^1.19.0",
     "connect-datadog": "0.0.9",
     "cors": "^2.8.5",
@@ -35,7 +36,7 @@
     "mysql": "^2.17.1",
     "mysql2": "^2.0.0",
     "pg": "^7.12.1",
-    "sequelize": "^5.21.1",
+    "sequelize": "^6.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {

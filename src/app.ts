@@ -7,6 +7,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import api from './routes/router'; //router
+
+
 const dd_options = {
   'response_code': true,
   'tags': ['app:api-formatech']
@@ -54,8 +57,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(connectDatadog(dd_options));
 
-// router
-var api = require('./routes/router');
+
 // routes
 app.use('/api/', api);
 

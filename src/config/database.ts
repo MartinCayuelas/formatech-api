@@ -1,16 +1,3 @@
-const Sequelize = require('sequelize');
-let sequelize;
+import Sequelize from 'sequelize';
 
-const db = {
-  sequelize,
-  Sequelize
-};
-
-
-
-sequelize = new Sequelize(process.env.DATABASE_URL, {});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+export default new Sequelize.Sequelize(process.env.DATABASE_URL!, {});

@@ -1,6 +1,7 @@
 import { displayHome, updateElemInHome, deleteElemInHome, addElementInHome } from '../controllers/homeController';
 
-const homeRouter = require('express').Router();
+import { Router } from 'express';
+const homeRouter = Router();
 
 //Get a text from the API and send it
 homeRouter.get('/', (req: any, res: any) => {
@@ -25,6 +26,4 @@ homeRouter.delete('/supprimer/:id', (req: any, res: any) => {
   deleteElemInHome(req, res);
 });
 
-
-
-module.exports = homeRouter;
+export default homeRouter;

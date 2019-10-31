@@ -1,6 +1,6 @@
 import { displayDO, deleteElemInDO, addElementInDO, updateElemInDO } from '../controllers/doController';
-
-const doRouter = require('express').Router();
+import { Router } from 'express';
+const doRouter = Router();
 
 //Get a text from the API and send it
 doRouter.get('/', (req: any, res: any) => {
@@ -26,6 +26,4 @@ doRouter.delete('/supprimer/:id', (req: any, res: any) => {
   deleteElemInDO(req, res);
 });
 
-
-
-module.exports = doRouter;
+export default doRouter;

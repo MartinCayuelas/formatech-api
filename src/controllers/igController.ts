@@ -1,21 +1,22 @@
-const IgModel = require('../models/ig');
+import { Request, Response } from 'express';
+import { Ig } from '../models/ig';
 
-export const displayIG = async (req: any, res: any) => {
-  IgModel.findAll({
+export const displayIG = async (req: Request, res: Response) => {
+  Ig.findAll({
     order: [['idIg', 'ASC']]
-  }).then((igElems: any) => {
+  }).then((igElems: Ig[]) => {
     res.send(igElems); //Send the response
   });
 };
 
-export const addElementInIg = async (req: any, res: any) => {
+export const addElementInIg = async (req: Request, res: Response) => {
   const datas = {
     title: req.body.title,
     content: req.body.content,
     media: req.body.media
   };
 
-  IgModel.create(datas)
+  Ig.create(datas)
     .then(() => {
       res.sendStatus(201);
     })
@@ -24,8 +25,8 @@ export const addElementInIg = async (req: any, res: any) => {
     });
 };
 
-export const updateElemInIg = async (req: any, res: any) => {
-  IgModel.update({
+export const updateElemInIg = async (req: Request, res: Response) => {
+  Ig.update({
     content: req.body.content,
     title: req.body.title,
     media: req.body.media
@@ -33,8 +34,8 @@ export const updateElemInIg = async (req: any, res: any) => {
     where: {
       idIg: req.params.id
     }
-  }).then((igElem: any) => {
-    if (igElem == 1) {
+  }).then((igElem: [number, Ig[]]) => {
+    if (igElem[0] == 1) {
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
@@ -42,12 +43,12 @@ export const updateElemInIg = async (req: any, res: any) => {
   });
 };
 
-export const deleteElemInIg = async (req: any, res: any) => {
-  IgModel.destroy({
+export const deleteElemInIg = async (req: Request, res: Response) => {
+  Ig.destroy({
     where: {
       idIg: req.params.id
     }
-  }).then((igElem: any) => {
+  }).then((igElem: number) => {
     if (igElem == 1) {
       res.sendStatus(200);
     } else {
