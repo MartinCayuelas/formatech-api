@@ -1,10 +1,15 @@
 import express from 'express';
 const router = express();
 
-// Routes
-router.use('/accueil', require('./home'));
-router.use('/ig', require('./ig'));
-router.use('/do', require('./do'));
-router.use('/contact', require('./contact'));
+import homeRoute from './home';
+import igRoute from './ig';
+import doRoute from './do';
+import contactRoute from './contact';
 
-module.exports = router;
+// Routes
+router.use('/accueil', homeRoute);
+router.use('/ig', igRoute);
+router.use('/do', doRoute);
+router.use('/contact', contactRoute);
+
+export default router;

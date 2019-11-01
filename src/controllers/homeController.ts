@@ -1,23 +1,24 @@
-const HomeModel = require('../models/home');
+import { Request, Response } from 'express';
+import { Home } from '../models/home';
 
-export const displayHome = async (req: any, res: any) => {
-  HomeModel.findAll({
+export const displayHome = async (req: Request, res: Response) => {
+  Home.findAll({
     order: [['idHome', 'ASC']]
-  }).then((homeElem: any) => {
+  }).then((homeElem: Home[]) => {
     res.type('application/json');
     res.status(200);
     res.send(homeElem); //Send the response
   });
 };
 
-export const addElementInHome = async (req: any, res: any) => {
+export const addElementInHome = async (req: Request, res: Response) => {
   const datas = {
     title: req.body.title,
     content: req.body.content,
     media: req.body.media
   };
 
-  HomeModel.create(datas)
+  Home.create(datas)
     .then(() => {
       res.sendStatus(201);
     })
@@ -26,8 +27,8 @@ export const addElementInHome = async (req: any, res: any) => {
     });
 };
 
-export const updateElemInHome = async (req: any, res: any) => {
-  HomeModel.update({
+export const updateElemInHome = async (req: Request, res: Response) => {
+  Home.update({
     content: req.body.content,
     title: req.body.title,
     media: req.body.media
@@ -35,8 +36,8 @@ export const updateElemInHome = async (req: any, res: any) => {
     where: {
       idHome: req.params.id
     }
-  }).then((homeElem: any) => {
-    if (homeElem == 1) {
+  }).then((homeElem: [number, Home[]]) => {
+    if (homeElem[0] == 1) {
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
@@ -44,12 +45,12 @@ export const updateElemInHome = async (req: any, res: any) => {
   });
 };
 
-export const deleteElemInHome = async (req: any, res: any) => {
-  HomeModel.destroy({
+export const deleteElemInHome = async (req: Request, res: Response) => {
+  Home.destroy({
     where: {
       idHome: req.params.id
     }
-  }).then((homeElem: any) => {
+  }).then((homeElem: number) => {
     if (homeElem == 1) {
       res.sendStatus(200);
     } else {

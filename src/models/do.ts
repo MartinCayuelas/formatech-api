@@ -1,25 +1,35 @@
-const database = require('../config/database');
-import Sequelize from 'sequelize';
+import db from '../config/database';
+import { Model, DataTypes } from 'sequelize';
 
-//Define -> name of the table
-const Do = database.sequelize.define('Do', {
-  idDo: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+export class Do extends Model {
+  public idDo!: number;
+  public title!: string;
+  public content!: string;
+  public media!: string;
+}
+
+Do.init(
+  {
+    idDo: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    title: {
+      type: DataTypes.TEXT
+    },
+    content: {
+      type: DataTypes.TEXT
+    },
+    media: {
+      type: DataTypes.TEXT
+    }
   },
-  title: {
-    type: Sequelize.TEXT
-  },
-  content: {
-    type: Sequelize.TEXT
-  },
-  media: {
-    type: Sequelize.TEXT
+  {
+    tableName: 'Do',
+    timestamps: false,
+    freezeTableName: true,
+    sequelize: db
   }
-}, {
-  timestamps: false,
-  freezeTableName: true
-});
+);
 
-module.exports = Do;

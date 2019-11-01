@@ -1,6 +1,6 @@
 import { displayContacts, addElementInContact, updateElemInContact, deleteElemInContact } from '../controllers/contactController';
-
-const contactRouter = require('express').Router();
+import { Router } from 'express';
+const contactRouter = Router();
 
 //Get a text from the API and send it
 contactRouter.get('/', (req: any, res: any) => {
@@ -26,4 +26,4 @@ contactRouter.delete('/supprimer/:id', (req: any, res: any) => {
   deleteElemInContact(req, res);
 });
 
-module.exports = contactRouter;
+export default contactRouter;

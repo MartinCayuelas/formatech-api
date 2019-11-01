@@ -1,25 +1,35 @@
-const database = require('../config/database');
-import Sequelize from 'sequelize';
+import db from '../config/database';
+import { Model, DataTypes } from 'sequelize';
 
-//Define -> name of the table
-const Ig = database.sequelize.define('Ig', {
-  idIg: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+export class Ig extends Model {
+  public idIg!: number;
+  public title!: string;
+  public content!: string;
+  public media!: string;
+}
+
+Ig.init(
+  {
+    idIg: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    title: {
+      type: DataTypes.TEXT
+    },
+    content: {
+      type: DataTypes.TEXT
+    },
+    media: {
+      type: DataTypes.TEXT
+    }
   },
-  title: {
-    type: Sequelize.TEXT
-  },
-  content: {
-    type: Sequelize.TEXT
-  },
-  media: {
-    type: Sequelize.TEXT
+  {
+    tableName: 'Ig',
+    timestamps: false,
+    freezeTableName: true,
+    sequelize: db
   }
-}, {
-  timestamps: false,
-  freezeTableName: true
-});
+);
 
-module.exports = Ig;

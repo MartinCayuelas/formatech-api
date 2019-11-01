@@ -1,25 +1,35 @@
-const database = require('../config/database');
-import Sequelize from 'sequelize';
+import db from '../config/database';
+import { Model, DataTypes } from 'sequelize';
 
-//Define -> name of the table
-const Contact = database.sequelize.define('Contact', {
-  idContact: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+export class Contact extends Model {
+  public idContact!: number;
+  public name!: string;
+  public email!: string;
+  public position!: string;
+}
+
+Contact.init(
+  {
+    idContact: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: DataTypes.TEXT
+    },
+    email: {
+      type: DataTypes.TEXT
+    },
+    position: {
+      type: DataTypes.TEXT
+    }
   },
-  name: {
-    type: Sequelize.TEXT
-  },
-  email: {
-    type: Sequelize.TEXT
-  },
-  position: {
-    type: Sequelize.TEXT
+  {
+    tableName: 'Contact',
+    timestamps: false,
+    freezeTableName: true,
+    sequelize: db
   }
-}, {
-  timestamps: false,
-  freezeTableName: true
-});
+);
 
-module.exports = Contact;

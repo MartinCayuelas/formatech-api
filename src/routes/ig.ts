@@ -1,6 +1,6 @@
 import { displayIG, deleteElemInIg, updateElemInIg, addElementInIg } from '../controllers/igController';
-
-const igRouter = require('express').Router();
+import { Router } from 'express';
+const igRouter = Router();
 
 //Get a text from the API and send it
 igRouter.get('/', (req: any, res: any) => {
@@ -27,4 +27,4 @@ igRouter.delete('/supprimer/:id', (req: any, res: any) => {
   deleteElemInIg(req, res);
 });
 
-module.exports = igRouter;
+export default igRouter;
