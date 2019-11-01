@@ -61,8 +61,6 @@ app.use(connectDatadog(dd_options));
 // routes
 app.use('/api/', api);
 
-
-
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
   res.send('Welcome to the API of Formatech');

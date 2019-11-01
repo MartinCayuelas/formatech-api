@@ -21,9 +21,9 @@ export const getSubjectDetails = async (subjectId: string, year: string, res: an
     let terrain = hourTableNode.querySelectorAll("td")[4].textContent
     let projet = hourTableNode.querySelectorAll("td")[5].textContent
 
-    let description = descripTableNode.children[5].textContent
-    let context = descripTableNode.children[7].textContent
-    let content = descripTableNode.children[9].textContent
+    let description = descripTableNode.children[5].textContent.trim()
+    let context = descripTableNode.children[7].textContent.trim()
+    let content = descripTableNode.children[9].textContent.trim()
 
     let details = {
       "personalWork":personalWork ,
@@ -63,20 +63,15 @@ export const getModuleDetails = async (moduleId: string, year: string, res: any)
     let terrain = hourTableNode.querySelectorAll("td")[4].textContent
     let projet = hourTableNode.querySelectorAll("td")[5].textContent
 
-    let description = descripTableNode.children[5].textContent
-    let context = descripTableNode.children[7].textContent
-    let content = descripTableNode.children[9].textContent
+    let description = descripTableNode.children[5].textContent.trim()
+    let context = descripTableNode.children[7].textContent.trim()
+    let content = descripTableNode.children[9].textContent.trim()
 
     let subjects = Array.from(dom.window.document.getElementsByClassName("listeDescendants")[0].children[1].children).map(subject => {
-      if(subject instanceof Element){
-        let subjectSplit = subject!.querySelector("p")!.textContent!.split(":")
-        let id = subjectSplit[0].trim()
-        let title = subjectSplit[1].trim()
-        return {"id":id, "title":title}
-      }
-      else{
-
-      }
+      let subjectSplit = (subject as Element)!.querySelector("p")!.textContent!.split(":")
+      let id = subjectSplit[0].trim()
+      let title = subjectSplit[1].trim()
+      return {"id":id, "title":title}
     })
 
     let details = {
@@ -107,12 +102,11 @@ export const getFormationDetails = async (formationId: string, year: string, res
     const dom = new JSDOM(body)
 
     let years = Array.from(dom.window.document.getElementsByClassName("etape")).map(etape => {
-      if(etape instanceof Element){
-        let etapeId = etape!.querySelector("header")!.querySelector("div")!.querySelector("div")!.children[1]!.querySelector("p")!.textContent!.split("-")[0]!.trim()
-        return {
-          "id":etapeId
-        }
+      let etapeId = (etape as Element)!.querySelector("header")!.querySelector("div")!.querySelector("div")!.children[1]!.querySelector("p")!.textContent!.split("-")[0]!.trim()
+      return {
+        "id":etapeId
       }
+
     })
 
     res.type('application/json');
@@ -140,34 +134,54 @@ export const getSemesterDetails = async (semesterId: string, year: string, res: 
     let terrain = hourTableNode.querySelectorAll("td")[4].textContent
     let projet = hourTableNode.querySelectorAll("td")[5].textContent
 
-    let description = descripTableNode.children[5].textContent
-    let context = descripTableNode.children[7].textContent
-    let content = descripTableNode.children[9].textContent
+    let description = descripTableNode.children[5].textContent.trim()
+    let context = descripTableNode.children[7].textContent.trim()
+    let content = descripTableNode.children[9].textContent.trim()
 
-    let modules = Array.from(dom.window.document.getElementsByClassName("listeDescendants")[0].children[1].children).map(subject => {
-      if(subject instanceof Element){
-        let subjectSplit = subject!.querySelector("p")!.textContent!.split(":")
+    let modules = []
+
+    if(Array.from(dom.window.document.getElementsByClassName("listeDescendants")).length > 0){
+      modules = Array.from(dom.window.document.getElementsByClassName("listeDescendants")[0].children[1].children).map(subject => {
+        let subjectSplit = (subject as Element)!.querySelector("p")!.textContent!.split(":")
         let id = subjectSplit[0].trim()
         let title = subjectSplit[1].trim()
         return {"id":id, "title":title}
-      }
-    })
-
-    let details = {"personalWork":personalWork ,
-      "CM":CM ,
-      "TD":TD ,
-      "CMTD":CMTD ,
-      "TP":TP ,
-      "Projet":projet ,
-      "Terrain":terrain ,
-      "description":description ,
-      "context":context ,
-      "content":content ,
-      "modules":modules }
-
+      })
+      let details = {"personalWork":personalWork ,
+        "CM":CM ,
+        "TD":TD ,
+        "CMTD":CMTD ,
+        "TP":TP ,
+        "Projet":projet ,
+        "Terrain":terrain ,
+        "description":description ,
+        "context":context ,
+        "content":content,
+        "modules":modules  }
       res.type('application/json');
       res.status(200);
       res.send(details); //Send the response
+    }
+    else{
+      let details = {"personalWork":personalWork ,
+        "CM":CM ,
+        "TD":TD ,
+        "CMTD":CMTD ,
+        "TP":TP ,
+        "Projet":projet ,
+        "Terrain":terrain ,
+        "description":description ,
+        "context":context ,
+        "content":content,
+        "modules":[]   }
+      res.type('application/json');
+      res.status(200);
+      res.send(details); //Send the response
+    }
+
+
+
+
   })
 };
 
@@ -190,17 +204,15 @@ export const getYearDetails = async (yearId: string, year: string, res: any) => 
     let terrain = hourTableNode.querySelectorAll("td")[4].textContent
     let projet = hourTableNode.querySelectorAll("td")[5].textContent
 
-    let description = descripTableNode.children[5].textContent
-    let context = descripTableNode.children[7].textContent
-    let content = descripTableNode.children[9].textContent
+    let description = descripTableNode.children[5].textContent.trim()
+    let context = descripTableNode.children[7].textContent.trim()
+    let content = descripTableNode.children[9].textContent.trim()
 
     let semesters = Array.from(dom.window.document.getElementsByClassName("listeDescendants")[0].children[1].children).map(subject => {
-      if(subject instanceof Element){
-        let subjectSplit = subject!.querySelector("p")!.textContent!.split(":")
-        let id = subjectSplit[0].trim()
-        let title = subjectSplit[1].trim()
-        return {"id":id, "title":title}
-      }
+      let subjectSplit = (subject as Element)!.querySelector("p")!.textContent!.split(":")
+      let id = subjectSplit[0].trim()
+      let title = subjectSplit[1].trim()
+      return {"id":id, "title":title}
     })
 
     let details = {"personalWork":personalWork ,
