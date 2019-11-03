@@ -6,12 +6,15 @@ import { Response as ResponseReq } from 'request';
 
 
 export const getSubjectDetails = async (subjectId: string, year: string, res: Response) => {
-  Request('https://sagesse.polytech.umontpellier.fr/syllabus/'+subjectId+'/'+year, (error: any, response: ResponseReq, body: any) => {
+  Request('https://sagesse.polytech.umontpellier.fr/syllabus/'+subjectId+'/'+year, (error: object, response: ResponseReq, body: string) => {
     if(error) {
+      let errorMsg = {'error':'Problem while getting page'};
+      res.status(500);
+      res.send(errorMsg);
       return console.dir(error);
     }
     const dom = new JSDOM(body);
-    let details :any ={};
+    let details: object = {};
 
     try{
       let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
@@ -58,12 +61,15 @@ export const getSubjectDetails = async (subjectId: string, year: string, res: Re
 
 
 export const getModuleDetails = async (moduleId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+moduleId+'/'+year, (error: any, response: ResponseReq, body: any) => {
+  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+moduleId+'/'+year, (error: object, response: ResponseReq, body: string) => {
     if(error) {
+      let errorMsg = {'error':'Problem while getting page'};
+      res.status(500);
+      res.send(errorMsg);
       return console.dir(error);
     }
     const dom = new JSDOM(body);
-    let details :any ={};
+    let details: object = {};
     try{
       let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
       let hourTableNode = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[4]!.querySelector('tbody')!.querySelector('tr');
@@ -115,8 +121,11 @@ export const getModuleDetails = async (moduleId: string, year: string, res: Resp
 
 
 export const getFormationDetails = async (formationId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/structures/'+formationId+'/'+year, (error:any, response:ResponseReq, body:any) => {
+  Request.get('https://sagesse.plytech.umontpellier.fr/structures/'+formationId+'/'+year, (error: object, response:ResponseReq, body:string) => {
     if(error) {
+      let errorMsg = {'error':'Problem while getting page'};
+      res.status(500);
+      res.send(errorMsg);
       return console.dir(error);
     }
     const dom = new JSDOM(body);
@@ -136,13 +145,16 @@ export const getFormationDetails = async (formationId: string, year: string, res
 
 
 export const getSemesterDetails = async (semesterId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+semesterId+'/'+year, (error: any, response: ResponseReq, body: any) => {
+  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+semesterId+'/'+year, (error: object, response: ResponseReq, body: string) => {
     if(error) {
+      let errorMsg = {'error':'Problem while getting page'};
+      res.status(500);
+      res.send(errorMsg);
       return console.dir(error);
     }
     const dom = new JSDOM(body);
 
-    let details : any = {};
+    let details: object = {};
 
     try{
       let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
@@ -212,13 +224,16 @@ export const getSemesterDetails = async (semesterId: string, year: string, res: 
 
 
 export const getYearDetails = async (yearId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+yearId+'/'+year, (error: any, response: ResponseReq, body: any) => {
+  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+yearId+'/'+year, (error: object, response: ResponseReq, body: string) => {
     if(error) {
+      let errorMsg = {'error':'Problem while getting page'};
+      res.status(500);
+      res.send(errorMsg);
       return console.dir(error);
     }
     const dom = new JSDOM(body);
 
-    let details : any = {};
+    let details: object = {};
 
     try{
       let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
