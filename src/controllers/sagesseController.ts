@@ -121,7 +121,7 @@ export const getModuleDetails = async (moduleId: string, year: string, res: Resp
 
 
 export const getFormationDetails = async (formationId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.plytech.umontpellier.fr/structures/'+formationId+'/'+year, (error: object, response:ResponseReq, body:string) => {
+  Request.get('https://sagesse.polytech.umontpellier.fr/structures/'+formationId+'/'+year, (error: object, response:ResponseReq, body:string) => {
     if(error) {
       let errorMsg = {'error':'Problem while getting page'};
       res.status(500);
