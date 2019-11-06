@@ -20,10 +20,12 @@
   },
   "homepage": "https://github.com/MartinCayuelas/formatech-api#readme",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.17.1",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
     "@types/helmet": "0.0.44",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/mysql": "^2.15.7",
     "@types/sequelize": "^4.28.6",
     "@types/url-parse": "^1.4.3",

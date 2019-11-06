@@ -1,4 +1,5 @@
 import { displayContacts, addElementInContact, updateElemInContact, deleteElemInContact } from '../controllers/contactController';
+import { checkJwt } from '../middlewares/auth.middleware';
 import { Router } from 'express';
 const contactRouter = Router();
 
@@ -8,20 +9,20 @@ contactRouter.get('/', (req: any, res: any) => {
 });
 
 //Insert in the DB
-contactRouter.post('/', (req: any, res: any) => {
+contactRouter.post('/', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   addElementInContact(req, res);
 });
 
 //Update in the DB
-contactRouter.put('/modifier/:id', (req: any, res: any) => {
+contactRouter.put('/modifier/:id', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   updateElemInContact(req, res);
 });
 
 
 //DELETE an elem with a given id
-contactRouter.delete('/supprimer/:id', (req: any, res: any) => {
+contactRouter.delete('/supprimer/:id', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   deleteElemInContact(req, res);
 });

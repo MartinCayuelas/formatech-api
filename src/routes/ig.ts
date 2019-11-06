@@ -1,5 +1,6 @@
 import { displayIG, deleteElemInIg, updateElemInIg, addElementInIg } from '../controllers/igController';
 import { Router } from 'express';
+import { checkJwt } from '../middlewares/auth.middleware';
 const igRouter = Router();
 
 //Get a text from the API and send it
@@ -10,19 +11,19 @@ igRouter.get('/', (req: any, res: any) => {
 });
 
 //Insert in the DB
-igRouter.post('/', (req: any, res: any) => {
+igRouter.post('/', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   addElementInIg(req, res);
 });
 
 //Update in the DB
-igRouter.put('/modifier/:id', (req: any, res: any) => {
+igRouter.put('/modifier/:id', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   updateElemInIg(req, res);
 });
 
 //DELETE an elem with a given id
-igRouter.delete('/supprimer/:id', (req: any, res: any) => {
+igRouter.delete('/supprimer/:id', [checkJwt], (req: any, res: any) => {
   res.type('application/json');
   deleteElemInIg(req, res);
 });
