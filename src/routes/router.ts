@@ -12,6 +12,6 @@ router.use('/accueil', homeRoute);
 router.use('/ig', igRoute);
 router.use('/do', doRoute);
 router.use('/contact', contactRoute);
-router.use('/user', userRoute);
+router.use('/utilisateur', userRoute);
 
 export default router;

@@ -5,7 +5,7 @@ import { addUser } from '../controllers/userController';
 const userRouter = Router();
 
 //Get a text from the API and send it
-userRouter.get('/login', (req: any, res: any) => {
+userRouter.post('/connexion', (req: any, res: any) => {
   res.type('application/json');
   login(req, res);
 });
@@ -28,4 +28,4 @@ userRouter.delete('/supprimer/:id', [checkJwt], (req: any, res: any) => {
     deleteElemInHome(req, res);
 });
 */
-export default homeRouter;
+export default userRouter;

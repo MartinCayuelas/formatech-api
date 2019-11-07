@@ -5,8 +5,10 @@ import { getUserByLogin } from './userController';
 import { checkIfUnencryptedPasswordIsValid } from '../helpers/password.helper';
 
 export const login = async (req: Request, res: Response) => {
+
   //Check if username and password are set
-  let { login, password } = req.body;
+  const { login, password } = req.body;
+
   if (!(login && password)) {
     res.sendStatus(400);
   }
@@ -19,12 +21,12 @@ export const login = async (req: Request, res: Response) => {
         res.sendStatus(401);
       } else {
         //Sing JWT, valid for 1 hour
-        const token = jwt.sign(
-          { userId: user.idUser, login: user.login },
-          process.env.Secret_Key_JWT!,
-          { expiresIn: '1h' }
-        );
+        const token = jwt.sign({ idUser: user.idUser, login: user.login },  process.env.Secret_Key_JWT!, {
+          expiresIn: '1h'
+        });
+       
         //Send the jwt in the response
+        res.status(200);
         res.send(token);
       }
     }
