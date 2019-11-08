@@ -1,6 +1,6 @@
 import { displayIG, deleteElemInIg, updateElemInIg, addElementInIg } from '../controllers/igController';
 import { Router, Request, Response } from 'express';
-import { checkJwt } from '../middlewares/auth.middleware';
+import checkJwt from '../middlewares/auth.middleware';
 const igRouter = Router();
 
 //Get a text from the API and send it

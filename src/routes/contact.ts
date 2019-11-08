@@ -1,5 +1,5 @@
 import { displayContacts, addElementInContact, updateElemInContact, deleteElemInContact } from '../controllers/contactController';
-import { checkJwt } from '../middlewares/auth.middleware';
+import  checkJwt  from '../middlewares/auth.middleware';
 import { Router, Request, Response } from 'express';
 const contactRouter = Router();
 

@@ -1,5 +1,5 @@
 import { displayHome, updateElemInHome, deleteElemInHome, addElementInHome } from '../controllers/homeController';
-import { checkJwt } from '../middlewares/auth.middleware';
+import checkJwt from '../middlewares/auth.middleware';
 import { Router, Request, Response } from 'express';
 
 const homeRouter = Router();

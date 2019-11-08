@@ -1,6 +1,6 @@
 import { displayDO, deleteElemInDO, addElementInDO, updateElemInDO } from '../controllers/doController';
 import { Router, Request, Response } from 'express';
-import { checkJwt } from '../middlewares/auth.middleware';
+import checkJwt from '../middlewares/auth.middleware';
 const doRouter = Router();
 
 //Get a text from the API and send it

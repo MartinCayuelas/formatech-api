@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import Contact from '../models/contact';
 
 
-
-export const displayContacts = async (req: Request, res: Response) => {
+const displayContacts = async (req: Request, res: Response) => {
   Contact.findAll({
     order: [['name', 'ASC']]
   }).then((contactElems: Contact[]) => {
@@ -13,7 +12,7 @@ export const displayContacts = async (req: Request, res: Response) => {
   });
 };
 
-export const addElementInContact = async (req: Request, res: Response) => {
+const addElementInContact = async (req: Request, res: Response) => {
   const datas = {
     name: req.body.name,
     email: req.body.email,
@@ -29,7 +28,7 @@ export const addElementInContact = async (req: Request, res: Response) => {
     });
 };
 
-export const updateElemInContact = async (req: Request, res: Response) => {
+const updateElemInContact = async (req: Request, res: Response) => {
   Contact.update({
     name: req.body.name,
     email: req.body.email,
@@ -47,7 +46,7 @@ export const updateElemInContact = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteElemInContact = async (req: Request, res: Response) => {
+const deleteElemInContact = async (req: Request, res: Response) => {
   Contact.destroy({
     where: {
       idContact: req.params.id
@@ -60,3 +59,5 @@ export const deleteElemInContact = async (req: Request, res: Response) => {
     }
   });
 };
+
+export { displayContacts, addElementInContact, updateElemInContact, deleteElemInContact };

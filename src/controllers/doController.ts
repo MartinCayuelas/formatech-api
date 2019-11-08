@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Do from '../models/do';
 
-export const displayDO = async (req: Request, res: Response) => {
+const displayDO = async (req: Request, res: Response) => {
   Do.findAll({
     order: [['idDo', 'ASC']]
   }).then((doElems: Do[]) => {
@@ -11,7 +11,7 @@ export const displayDO = async (req: Request, res: Response) => {
   });
 };
 
-export const addElementInDO = async (req: Request, res: Response) => {
+const addElementInDO = async (req: Request, res: Response) => {
   const datas = {
     title: req.body.title,
     content: req.body.content,
@@ -27,7 +27,7 @@ export const addElementInDO = async (req: Request, res: Response) => {
     });
 };
 
-export const updateElemInDO = async (req: Request, res: Response) => {
+const updateElemInDO = async (req: Request, res: Response) => {
   Do.update({
     content: req.body.content,
     title: req.body.title,
@@ -45,7 +45,7 @@ export const updateElemInDO = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteElemInDO = async (req: Request, res: Response) => {
+const deleteElemInDO = async (req: Request, res: Response) => {
   Do.destroy({
     where: {
       idDo: req.params.id
@@ -58,3 +58,5 @@ export const deleteElemInDO = async (req: Request, res: Response) => {
     }
   });
 };
+
+export { displayDO, addElementInDO, updateElemInDO, deleteElemInDO };

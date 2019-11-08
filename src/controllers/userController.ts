@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user';
 import { hashPassword } from '../helpers/password.helper';
 
-export const getUserByLogin = async (req: Request) => {
+const getUserByLogin = async (req: Request) => {
   return User.findOne({
     where: {
       login: req.body.login
@@ -10,7 +10,7 @@ export const getUserByLogin = async (req: Request) => {
   });
 };
 
-export const addUser = async (req: Request, res: Response) => {
+const addUser = async (req: Request, res: Response) => {
   const userData = {
     login: req.body.login,
     password: hashPassword(req.body.password)
@@ -33,3 +33,5 @@ export const addUser = async (req: Request, res: Response) => {
     }
   });
 };
+
+export { getUserByLogin, addUser };

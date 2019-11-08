@@ -4,7 +4,7 @@ import User from '../models/user';
 import { getUserByLogin } from './userController';
 import { checkIfUnencryptedPasswordIsValid } from '../helpers/password.helper';
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
 
   //Check if username and password are set
   const { login, password } = req.body;
@@ -35,3 +35,5 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+
+export { login };

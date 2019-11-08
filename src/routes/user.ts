@@ -1,5 +1,5 @@
-import { checkJwt } from '../middlewares/auth.middleware';
 import { Router, Request, Response } from 'express';
+import checkJwt from '../middlewares/auth.middleware';
 import { login } from '../controllers/authController';
 import { addUser } from '../controllers/userController';
 const userRouter = Router();

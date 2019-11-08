@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Ig from '../models/ig';
 
-export const displayIG = async (req: Request, res: Response) => {
+const displayIG = async (req: Request, res: Response) => {
   Ig.findAll({
     order: [['idIg', 'ASC']]
   }).then((igElems: Ig[]) => {
@@ -9,7 +9,7 @@ export const displayIG = async (req: Request, res: Response) => {
   });
 };
 
-export const addElementInIg = async (req: Request, res: Response) => {
+const addElementInIg = async (req: Request, res: Response) => {
   const datas = {
     title: req.body.title,
     content: req.body.content,
@@ -25,7 +25,7 @@ export const addElementInIg = async (req: Request, res: Response) => {
     });
 };
 
-export const updateElemInIg = async (req: Request, res: Response) => {
+const updateElemInIg = async (req: Request, res: Response) => {
   Ig.update({
     content: req.body.content,
     title: req.body.title,
@@ -43,7 +43,7 @@ export const updateElemInIg = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteElemInIg = async (req: Request, res: Response) => {
+const deleteElemInIg = async (req: Request, res: Response) => {
   Ig.destroy({
     where: {
       idIg: req.params.id
@@ -56,3 +56,5 @@ export const deleteElemInIg = async (req: Request, res: Response) => {
     }
   });
 };
+
+export { displayIG, addElementInIg, updateElemInIg, deleteElemInIg };

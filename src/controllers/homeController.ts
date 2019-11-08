@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Home from '../models/home';
 
-export const displayHome = async (req: Request, res: Response) => {
+const displayHome = async (req: Request, res: Response) => {
   Home.findAll({
     order: [['idHome', 'ASC']]
   }).then((homeElem: Home[]) => {
@@ -11,7 +11,7 @@ export const displayHome = async (req: Request, res: Response) => {
   });
 };
 
-export const addElementInHome = async (req: Request, res: Response) => {
+const addElementInHome = async (req: Request, res: Response) => {
   const datas = {
     title: req.body.title,
     content: req.body.content,
@@ -27,7 +27,7 @@ export const addElementInHome = async (req: Request, res: Response) => {
     });
 };
 
-export const updateElemInHome = async (req: Request, res: Response) => {
+const updateElemInHome = async (req: Request, res: Response) => {
   Home.update({
     content: req.body.content,
     title: req.body.title,
@@ -45,7 +45,7 @@ export const updateElemInHome = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteElemInHome = async (req: Request, res: Response) => {
+const deleteElemInHome = async (req: Request, res: Response) => {
   Home.destroy({
     where: {
       idHome: req.params.id
@@ -58,3 +58,5 @@ export const deleteElemInHome = async (req: Request, res: Response) => {
     }
   });
 };
+
+export { displayHome, addElementInHome, updateElemInHome, deleteElemInHome };
