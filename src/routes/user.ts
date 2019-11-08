@@ -15,6 +15,13 @@ userRouter.post('/inscrire', [checkJwt], (req: Request, res: Response) => {
   res.type('application/json');
   addUser(req, res);
 });
+//Insert in the DB
+userRouter.get('/token', [checkJwt], (req: Request, res: Response) => {
+  res.type('application/json');
+  res.sendStatus(200);
+});
+
+
 /*
 //Update in the DB
 userRouter.put('/modifier/:id', [checkJwt], (req: any, res: any) => {

@@ -16,11 +16,9 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
       //If token is not valid or not existing, respond with 401 (unauthorized)
       res.sendStatus(401);
     }
-
   } catch (error) {
     //If token is not valid or not existing, respond with 401 (unauthorized)
     res.sendStatus(401);
-
   }
 
   //The token is valid for 1 hour
