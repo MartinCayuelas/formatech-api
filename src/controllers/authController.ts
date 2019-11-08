@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { User } from '../models/user';
+import User from '../models/user';
 import { getUserByLogin } from './userController';
 import { checkIfUnencryptedPasswordIsValid } from '../helpers/password.helper';
 
@@ -21,10 +21,10 @@ export const login = async (req: Request, res: Response) => {
         res.sendStatus(401);
       } else {
         //Sing JWT, valid for 1 hour
-        const token = jwt.sign({ idUser: user.idUser, login: user.login },  process.env.Secret_Key_JWT!, {
+        const token = jwt.sign({ idUser: user.idUser, login: user.login }, process.env.Secret_Key_JWT!, {
           expiresIn: '1h'
         });
-       
+
         //Send the jwt in the response
         res.status(200);
         res.send(token);

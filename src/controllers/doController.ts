@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Do } from '../models/do';
+import Do from '../models/do';
 
 export const displayDO = async (req: Request, res: Response) => {
   Do.findAll({

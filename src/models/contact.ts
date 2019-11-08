@@ -1,7 +1,7 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-export class Contact extends Model {
+class Contact extends Model {
   public idContact!: number;
   public name!: string;
   public email!: string;
@@ -33,3 +33,4 @@ Contact.init(
   }
 );
 
+export = Contact;

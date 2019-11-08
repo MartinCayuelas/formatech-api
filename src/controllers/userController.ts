@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/user';
+import User from '../models/user';
 import { hashPassword } from '../helpers/password.helper';
 
 export const getUserByLogin = async (req: Request) => {

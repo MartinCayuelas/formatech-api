@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Ig } from '../models/ig';
+import Ig from '../models/ig';
 
 export const displayIG = async (req: Request, res: Response) => {
   Ig.findAll({

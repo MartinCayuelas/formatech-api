@@ -1,7 +1,7 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-export class User extends Model {
+class User extends Model {
   public idUser!: number;
   public login!: string;
   public password!: string;
@@ -29,3 +29,4 @@ User.init(
   }
 );
 
+export = User;

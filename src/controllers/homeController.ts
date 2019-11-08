@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Home } from '../models/home';
+import Home from '../models/home';
 
 export const displayHome = async (req: Request, res: Response) => {
   Home.findAll({
