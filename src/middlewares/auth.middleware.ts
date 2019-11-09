@@ -12,6 +12,15 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
       const token = bearerToken.split(' ')[1];
       jwtPayload = <any>jwt.verify(token, process.env.Secret_Key_JWT!);
       res.locals.jwtPayload = jwtPayload;
+
+      //The token is valid for 1 hour
+      //We want to send a new token on every request
+      const { idUser, login } = jwtPayload;
+      const newToken = jwt.sign({ idUser, login }, process.env.Secret_Key_JWT!, {
+        expiresIn: '1h'
+      });
+      res.setHeader('tokenFormatech', newToken);
+
     } else {
       //If token is not valid or not existing, respond with 401 (unauthorized)
       res.sendStatus(401);
@@ -20,14 +29,6 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     //If token is not valid or not existing, respond with 401 (unauthorized)
     res.sendStatus(401);
   }
-
-  //The token is valid for 1 hour
-  //We want to send a new token on every request
-  const { idUser, login } = jwtPayload;
-  const newToken = jwt.sign({ idUser, login }, process.env.Secret_Key_JWT!, {
-    expiresIn: '1h'
-  });
-  res.setHeader('tokenFormatech', newToken);
 
   //Call the next middleware or controller
   next();
