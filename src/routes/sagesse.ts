@@ -3,7 +3,7 @@ import { getModuleDetails } from '../controllers/Module';
 import { getSemesterDetails } from '../controllers/Semester';
 import { getStepDetails } from '../controllers/Step';
 import { getFormationDetails } from '../controllers/Formation';*/
-import { testConnexion, getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
+import { getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
 
 import { Router, Request, Response } from 'express';
 const sagesseRouter = Router();
@@ -14,21 +14,21 @@ sagesseRouter.get('/:formation/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
 
-  testConnexion()
+  /*  testConnexion()
   .then(() => {
     res.end('Connection has been established successfully.');
   })
   .catch((err: any) => {
     console.error('Unable to connect to the database:', err);
   });
-/*
+  */
   getFormationDetails(req.params.formation)
-  .then((formationDetails: Object) => {
-    res.send(formationDetails);
-  })
-  .catch( (error : any) => {
-    console.log(error);
-  });*/
+    .then((formationDetails: Object) => {
+      res.send(formationDetails);
+    })
+    .catch( (error : any) => {
+      console.log(error);
+    });
 });
 
 
@@ -39,12 +39,12 @@ sagesseRouter.get('/subject/:id/', (req: Request, res: Response) => {
   res.status(200);
 
   getSubjectDetails(parseInt(req.params.id))
-  .then((subjectDetails: Object) => {
-    res.send(subjectDetails);
-  })
-  .catch( (error : any) => {
-    console.log(error);
-  })
+    .then((subjectDetails: Object) => {
+      res.send(subjectDetails);
+    })
+    .catch( (error : any) => {
+      console.log(error);
+    });
 });
 
 
@@ -55,12 +55,12 @@ sagesseRouter.get('/module/:id/', (req: Request, res: Response) => {
   res.status(200);
 
   getModuleDetails(parseInt(req.params.id))
-  .then((moduleDetails: Object) => {
-    res.send(moduleDetails);
-  })
-  .catch((error : any) => {
-     console.log(error);
-   })
+    .then((moduleDetails: Object) => {
+      res.send(moduleDetails);
+    })
+    .catch((error : any) => {
+      console.log(error);
+    });
 });
 
 
@@ -71,12 +71,12 @@ sagesseRouter.get('/period/:id/', (req: Request, res: Response) => {
   res.status(200);
 
   getPeriodDetails(parseInt(req.params.id))
-  .then((periodDetails: Object) => {
-    res.send(periodDetails);
-  })
-  .catch( (error : any) => {
-    console.log(error);
-  })
+    .then((periodDetails: Object) => {
+      res.send(periodDetails);
+    })
+    .catch( (error : any) => {
+      console.log(error);
+    });
 });
 
 
@@ -87,12 +87,12 @@ sagesseRouter.get('/step/:id/', (req: Request, res: Response) => {
   res.status(200);
 
   getStepDetails(parseInt(req.params.id))
-  .then((stepDetails: Object) => {
-    res.send(stepDetails);
-  })
-  .catch( (error : any) => {
-    console.log(error);
-  })
+    .then((stepDetails: Object) => {
+      res.send(stepDetails);
+    })
+    .catch( (error : any) => {
+      console.log(error);
+    });
 });
 
 
