@@ -1,4 +1,10 @@
-import { getSubjectDetails, getModuleDetails, getSemesterDetails, getYearDetails, getFormationDetails } from '../controllers/sagesseController';
+/*import { getSubjectDetails } from '../controllers/Subject';
+import { getModuleDetails } from '../controllers/Module';
+import { getSemesterDetails } from '../controllers/Semester';
+import { getStepDetails } from '../controllers/Step';
+import { getFormationDetails } from '../controllers/Formation';*/
+import { testConnexion, getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
+
 import { Router, Request, Response } from 'express';
 const sagesseRouter = Router();
 
@@ -7,68 +13,86 @@ const sagesseRouter = Router();
 sagesseRouter.get('/:formation/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
-  if(req.params.formation=='DO'){
-    getFormationDetails(req.params.formation, '2020', res);
-  }
-  else {
-    getFormationDetails(req.params.formation, '2018', res);
-  }
+
+  testConnexion()
+  .then(() => {
+    res.end('Connection has been established successfully.');
+  })
+  .catch((err: any) => {
+    console.error('Unable to connect to the database:', err);
+  });
+/*
+  getFormationDetails(req.params.formation)
+  .then((formationDetails: Object) => {
+    res.send(formationDetails);
+  })
+  .catch( (error : any) => {
+    console.log(error);
+  });*/
 });
 
 
 
 //send informations about a subjects
-sagesseRouter.get('/:formation/subject/:id/', (req: Request, res: Response) => {
+sagesseRouter.get('/subject/:id/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
-  if(req.params.formation=='DO'){
-    getSubjectDetails(req.params.id, '2020', res);
-  }
-  else {
-    getSubjectDetails(req.params.id, '2018', res);
-  }
+
+  getSubjectDetails(parseInt(req.params.id))
+  .then((subjectDetails: Object) => {
+    res.send(subjectDetails);
+  })
+  .catch( (error : any) => {
+    console.log(error);
+  })
 });
 
 
 
 //send informations about a module
-sagesseRouter.get('/:formation/module/:id/', (req: Request, res: Response) => {
+sagesseRouter.get('/module/:id/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
-  if(req.params.formation=='DO'){
-    getModuleDetails(req.params.id, '2020', res);
-  }
-  else {
-    getModuleDetails(req.params.id, '2018', res);
-  }
+
+  getModuleDetails(parseInt(req.params.id))
+  .then((moduleDetails: Object) => {
+    res.send(moduleDetails);
+  })
+  .catch((error : any) => {
+     console.log(error);
+   })
 });
 
 
 
 //send informations about a semester
-sagesseRouter.get('/:formation/semester/:id/', (req: Request, res: Response) => {
+sagesseRouter.get('/period/:id/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
-  if(req.params.formation=='DO'){
-    getSemesterDetails(req.params.id, '2020', res);
-  }
-  else {
-    getSemesterDetails(req.params.id, '2018', res);
-  }
+
+  getPeriodDetails(parseInt(req.params.id))
+  .then((periodDetails: Object) => {
+    res.send(periodDetails);
+  })
+  .catch( (error : any) => {
+    console.log(error);
+  })
 });
 
 
 
 //send informations about a year
-sagesseRouter.get('/:formation/year/:id/', (req: Request, res: Response) => {
+sagesseRouter.get('/step/:id/', (req: Request, res: Response) => {
   res.type('application/json');
   res.status(200);
-  if(req.params.formation=='DO'){
-    getYearDetails(req.params.id, '2020', res);
-  }
-  else {
-    getYearDetails(req.params.id, '2018', res);
-  }
+
+  getStepDetails(parseInt(req.params.id))
+  .then((stepDetails: Object) => {
+    res.send(stepDetails);
+  })
+  .catch( (error : any) => {
+    console.log(error);
+  })
 });
 
 

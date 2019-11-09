@@ -1,285 +1,221 @@
-import { Response } from 'express';
-import { JSDOM } from 'jsdom';
+import { Request, Response } from 'express';
+const { Sequelize, QueryTypes } = require('sequelize');
+//import db from '../config/sagesse_database';
 
-import Request from 'request';
-import { Response as ResponseReq } from 'request';
+//const db = new Sequelize('postgres://consultation:adobe29;borines@sagesse.polytech.umontpellier.fr:5432/sagesse20&ssl=true');
+const db = new Sequelize('sagesse20', 'consultation', 'adobe29;borines', {host: 'sagesse.polytech.umontpellier.fr',
+                                                                          port: 5432,
+                                                                          dialect: 'postgres',
+                                                                          native: true,
+                                                                          quoteIdentifiers: true,
+                                                                        });
 
 
-export const getSubjectDetails = async (subjectId: string, year: string, res: Response) => {
-  Request('https://sagesse.polytech.umontpellier.fr/syllabus/'+subjectId+'/'+year, (error: object, response: ResponseReq, body: string) => {
-    if(error) {
-      let errorMsg = {'error':'Problem while getting page'};
-      res.status(500);
-      res.send(errorMsg);
-      return console.dir(error);
-    }
-    const dom = new JSDOM(body);
-    let details: object = {};
-
-    try{
-      let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
-      let hourTableNode = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[4]!.querySelector('tbody')!.querySelector('tr');
-
-      let personalWork = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[3]!.innerHTML;
-      let CM = hourTableNode!.querySelectorAll('td')[0]!.textContent;
-      let CMTD = hourTableNode!.querySelectorAll('td')[1]!.textContent;
-      let TD = hourTableNode!.querySelectorAll('td')[2]!.textContent;
-      let TP = hourTableNode!.querySelectorAll('td')[3]!.textContent;
-      let terrain = hourTableNode!.querySelectorAll('td')[4]!.textContent;
-      let projet = hourTableNode!.querySelectorAll('td')[5]!.textContent;
-
-      let description = descripTableNode!.children[5]!.textContent!.trim();
-      let context = descripTableNode!.children[7]!.textContent!.trim();
-      let content = descripTableNode!.children[9]!.textContent!.trim();
-
-      details = {
-        'personalWork':personalWork ,
-        'CM':CM ,
-        'TD':TD ,
-        'CMTD':CMTD ,
-        'TP':TP ,
-        'Projet':projet ,
-        'Terrain':terrain ,
-        'description':description ,
-        'context':context ,
-        'content':content
-      };
-
-      res.type('application/json');
-      res.status(200);
-
-    } catch(error){
-      console.log('Problem while scrapping HTML (element not found)');
-      res.status(200);
-      details = {'error':'can\'t get elements'};
-    }
-
-    res.send(details); //Send the response
-  });
+export const testConnexion = async () => {
+  console.log("BEGIN authentification");
+  db.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+    return 'SUCCES';
+  })
+  .catch((error: any)=>{
+    console.log('Connexion FAILED : '+error);
+  })
 };
 
 
 
-export const getModuleDetails = async (moduleId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+moduleId+'/'+year, (error: object, response: ResponseReq, body: string) => {
-    if(error) {
-      let errorMsg = {'error':'Problem while getting page'};
-      res.status(500);
-      res.send(errorMsg);
-      return console.dir(error);
-    }
-    const dom = new JSDOM(body);
-    let details: object = {};
-    try{
-      let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
-      let hourTableNode = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[4]!.querySelector('tbody')!.querySelector('tr');
+export const getFormationDetails = async (nomFormation : string) => {
+  console.log("BEGIN of get formation")
 
-      let personalWork = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[3]!.innerHTML;
-      let CM = hourTableNode!.querySelectorAll('td')[0]!.textContent;
-      let CMTD = hourTableNode!.querySelectorAll('td')[1]!.textContent;
-      let TD = hourTableNode!.querySelectorAll('td')[2]!.textContent;
-      let TP = hourTableNode!.querySelectorAll('td')[3]!.textContent;
-      let terrain = hourTableNode!.querySelectorAll('td')[4]!.textContent;
-      let projet = hourTableNode!.querySelectorAll('td')[5]!.textContent;
+  let formationInfo = await db.query('SELECT * \
+                                       FROM sagesse.parcours p\
+                                       WHERE p."codParcours" = :codP ; '
+                                      , { replacements: {codP:nomFormation},
+                                          type: QueryTypes.SELECT});
+    let formationDetails = {
+      "id": formationInfo[0].idParcours ,
+      "code": formationInfo[0].codParcours,
+      "title": formationInfo[0].licParcours,
+      "description":formationInfo[0].descParcours,
+      "steps": [] as any
+    };
 
-      let description = descripTableNode!.children[5]!.textContent!.trim();
-      let context = descripTableNode!.children[7]!.textContent!.trim();
-      let content = descripTableNode!.children[9]!.textContent!.trim();
+  let steps = await db.query('SELECT * \
+                                 FROM sagesse.elps p\
+                                 WHERE p."idParcours" = :idP \
+                                 AND p."natElp"= :etape ; '
+                                , {replacements: {idP:formationDetails.id ,etape:"étape"},
+                                   type: QueryTypes.SELECT});
 
-      let subjects = Array.from(dom.window.document.getElementsByClassName('listeDescendants')[0].children[1].children).map(subject => {
-        let subjectSplit = (subject as Element)!.querySelector('p')!.textContent!.split(':');
-        let id = subjectSplit[0].trim();
-        let title = subjectSplit[1].trim();
-        return {'id':id, 'title':title};
-      });
-
-      details = {
-        'personalWork':personalWork ,
-        'CM':CM ,
-        'TD':TD ,
-        'CMTD':CMTD ,
-        'TP':TP ,
-        'Projet':projet ,
-        'Terrain':terrain ,
-        'description':description ,
-        'context':context ,
-        'content':content ,
-        'subjects':subjects
-      };
-      res.status(200);
-
-    } catch(error){
-      console.log('Problem while scrapping HTML (element not found)');
-      details = {'error':'can\'t get elements'};
-      res.status(500);
-    }
-
-    res.type('application/json');
-    res.send(details); //Send the response
+  steps.forEach((step: any) => {
+    let stepInfo = {
+      "id": step.idElp ,
+      "code": step.codElp,
+      "title": step.licElp,
+      "credit": step.nbCrdElp
+    };
+    formationDetails.steps.push(stepInfo);
   });
+
+  return formationDetails;
 };
 
 
-export const getFormationDetails = async (formationId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/structures/'+formationId+'/'+year, (error: object, response:ResponseReq, body:string) => {
-    if(error) {
-      let errorMsg = {'error':'Problem while getting page'};
-      res.status(500);
-      res.send(errorMsg);
-      return console.dir(error);
-    }
-    const dom = new JSDOM(body);
 
-    let years = Array.from(dom.window.document.getElementsByClassName('etape')).map(etape => {
-      let etapeId = (etape as Element)!.querySelector('header')!.querySelector('div')!.querySelector('div')!.children[1]!.querySelector('p')!.textContent!.split('-')[0]!.trim();
-      return {
-        'id':etapeId
-      };
+
+export const getStepDetails = async (idStep : number) => {
+  console.log("BEGIN get step "+idStep);
+
+  let stepValues = await db.query( 'SELECT * \
+                                    FROM syllabus.syl_elps s \
+                                    WHERE s."idElp" = :idStep ; '
+                                    ,{replacements: {idStep:idStep},
+                                      type: QueryTypes.SELECT });
+
+  let stepDetails = {
+    "id": stepValues[0].idElp ,
+    "title": stepValues[0].licElp,
+    "description": stepValues[0].descriptionElp,
+    "context":  stepValues[0].contexteElp,
+    "content":  stepValues[0].contenuElp,
+    "periods":[] as any
+  };
+
+  let periods = await db.query('SELECT *   \
+                                FROM sagesse.elps e \
+                                WHERE e."natElp" = :type \
+                                  AND e."idElp" IN (SELECT DISTINCT f."idPeriode" \
+                                                  FROM sagesse.flat_elps f \
+                                                  WHERE f."idEtape" = :idStep ) ; '
+                                ,{replacements: {idStep:idStep, type:"période"},
+                                  type: QueryTypes.SELECT });
+
+  periods.forEach((period: any) => {
+    stepDetails.periods.push({
+      "id": period.idElp ,
+      "code": period.codElp,
+      "title": period.licElp,
+      "credit": period.nbCrdElp
     });
-
-    res.type('application/json');
-    res.status(200);
-    res.send(years); //Send the response
   });
+
+  return stepDetails;
 };
 
 
-export const getSemesterDetails = async (semesterId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+semesterId+'/'+year, (error: object, response: ResponseReq, body: string) => {
-    if(error) {
-      let errorMsg = {'error':'Problem while getting page'};
-      res.status(500);
-      res.send(errorMsg);
-      return console.dir(error);
-    }
-    const dom = new JSDOM(body);
 
-    let details: object = {};
 
-    try{
-      let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
-      let hourTableNode = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[4]!.querySelector('tbody')!.querySelector('tr');
 
-      let personalWork = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[3]!.innerHTML;
-      let CM = hourTableNode!.querySelectorAll('td')[0]!.textContent;
-      let CMTD = hourTableNode!.querySelectorAll('td')[1]!.textContent;
-      let TD = hourTableNode!.querySelectorAll('td')[2]!.textContent;
-      let TP = hourTableNode!.querySelectorAll('td')[3]!.textContent;
-      let terrain = hourTableNode!.querySelectorAll('td')[4]!.textContent;
-      let projet = hourTableNode!.querySelectorAll('td')[5]!.textContent;
 
-      let description = descripTableNode!.children[5]!.textContent!.trim();
-      let context = descripTableNode!.children[7]!.textContent!.trim();
-      let content = descripTableNode!.children[9]!.textContent!.trim();
 
-      if(Array.from(dom.window.document.getElementsByClassName('listeDescendants')).length > 0){    //the module have child (subjects associated to it)
-        let modules = Array.from(dom.window.document.getElementsByClassName('listeDescendants')[0].children[1].children).map(subject => {
-          let subjectSplit = (subject as Element)!.querySelector('p')!.textContent!.split(':');
-          let id = subjectSplit[0].trim();
-          let title = subjectSplit[1].trim();
-          return {'id':id, 'title':title};
-        });
 
-        details = {'personalWork':personalWork ,
-          'CM':CM ,
-          'TD':TD ,
-          'CMTD':CMTD ,
-          'TP':TP ,
-          'Projet':projet ,
-          'Terrain':terrain ,
-          'description':description ,
-          'context':context ,
-          'content':content,
-          'modules':modules
-        };
 
-        res.type('application/json');
-        res.status(200);
-      }
-      else{ //the module don't have child (no subject associated to it)
-        details = {'personalWork':personalWork ,
-          'CM':CM ,
-          'TD':TD ,
-          'CMTD':CMTD ,
-          'TP':TP ,
-          'Projet':projet ,
-          'Terrain':terrain ,
-          'description':description ,
-          'context':context ,
-          'content':content,
-          'modules':[]
-        };
-        res.type('application/json');
-        res.status(200);
-      }
-    } catch(error){
-      console.log('Problem while scrapping HTML (element not found)');
-      details = {'error':'can\'t get elements'};
-      res.status(500);
-    }
 
-    res.send(details); //Send the response
+export const getPeriodDetails = async (idPeriod: number) => {
+  console.log("BEGIN get period "+idPeriod);
+
+  let periodValues = await db.query( 'SELECT * \
+                                    FROM syllabus.syl_elps s \
+                                    WHERE s."idElp" = :id ; '
+                                    ,{replacements: {id:idPeriod},
+                                      type: QueryTypes.SELECT });
+
+  let periodDetails = {
+    "id": periodValues[0].idElp ,
+    "title": periodValues[0].licElp,
+    "description": periodValues[0].descriptionElp,
+    "context":  periodValues[0].contexteElp,
+    "content":  periodValues[0].contenuElp,
+    "modules":[] as any
+  };
+
+  let modules = await db.query('SELECT *   \
+                                FROM sagesse.elps e \
+                                WHERE e."natElp" = :type \
+                                  AND e."idElp" IN (SELECT DISTINCT f."idModule" \
+                                                  FROM sagesse.flat_elps f \
+                                                  WHERE f."idPeriode" = :id ) ; '
+                                ,{replacements: {id:idPeriod, type:"module"},
+                                  type: QueryTypes.SELECT });
+
+  modules.forEach((module: any) => {
+    periodDetails.modules.push({
+      "id": module.idElp ,
+      "code": module.codElp,
+      "title": module.licElp,
+      "credit": module.nbCrdElp
+    });
   });
+  return periodDetails;
 };
 
 
-export const getYearDetails = async (yearId: string, year: string, res: Response) => {
-  Request.get('https://sagesse.polytech.umontpellier.fr/syllabus/'+yearId+'/'+year, (error: object, response: ResponseReq, body: string) => {
-    if(error) {
-      let errorMsg = {'error':'Problem while getting page'};
-      res.status(500);
-      res.send(errorMsg);
-      return console.dir(error);
-    }
-    const dom = new JSDOM(body);
 
-    let details: object = {};
 
-    try{
-      let descripTableNode = dom.window.document.getElementsByClassName('syllabus-elp')[0].querySelector('dl');
-      let hourTableNode = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[4]!.querySelector('tbody')!.querySelector('tr');
 
-      let personalWork = descripTableNode!.querySelector('dd')!.querySelector('dl')!.querySelectorAll('dd')[3]!.innerHTML;
-      let CM = hourTableNode!.querySelectorAll('td')[0]!.textContent;
-      let CMTD = hourTableNode!.querySelectorAll('td')[1]!.textContent;
-      let TD = hourTableNode!.querySelectorAll('td')[2]!.textContent;
-      let TP = hourTableNode!.querySelectorAll('td')[3]!.textContent;
-      let terrain = hourTableNode!.querySelectorAll('td')[4]!.textContent;
-      let projet = hourTableNode!.querySelectorAll('td')[5]!.textContent;
 
-      let description = descripTableNode!.children[5]!.textContent!.trim();
-      let context = descripTableNode!.children[7]!.textContent!.trim();
-      let content = descripTableNode!.children[9]!.textContent!.trim();
 
-      let semesters = Array.from(dom.window.document.getElementsByClassName('listeDescendants')[0].children[1].children).map(subject => {
-        let subjectSplit = (subject as Element)!.querySelector('p')!.textContent!.split(':');
-        let id = subjectSplit[0].trim();
-        let title = subjectSplit[1].trim();
-        return {'id':id, 'title':title};
-      });
+export const getModuleDetails = async (idModule: number) => {
+  console.log("BEGIN get step "+idModule);
 
-      details = {'personalWork':personalWork ,
-        'CM':CM ,
-        'TD':TD ,
-        'CMTD':CMTD ,
-        'TP':TP ,
-        'Projet':projet ,
-        'Terrain':terrain ,
-        'description':description ,
-        'context':context ,
-        'content':content ,
-        'semesters':semesters
-      };
+  let moduleValues = await db.query( 'SELECT * \
+                                    FROM syllabus.syl_elps s \
+                                    WHERE s."idElp" = :id ; '
+                                    ,{replacements: {id:idModule},
+                                      type: QueryTypes.SELECT });
 
-      res.type('application/json');
-      res.status(200);
+  let moduleDetails = {
+    "id": moduleValues[0].idElp ,
+    "title": moduleValues[0].licElp,
+    "description": moduleValues[0].descriptionElp,
+    "context":  moduleValues[0].contexteElp,
+    "content":  moduleValues[0].contenuElp,
+    "subjects":[] as any
+  };
 
-    } catch(error){
-      console.log('Problem while scrapping HTML (element not found)');
-      details = {'error':'can\'t get elements'};
-      res.status(500);
-    }
+  let subjects = await db.query('SELECT *   \
+                                FROM sagesse.elps e \
+                                WHERE e."natElp" = :type \
+                                  AND e."idElp" IN (SELECT DISTINCT f."idMatiere" \
+                                                  FROM sagesse.flat_elps f \
+                                                  WHERE f."idModule" = :id ) ; '
+                                ,{replacements: {id:idModule, type:"matière"},
+                                  type: QueryTypes.SELECT });
 
-    res.send(details); //Send the response
+  subjects.forEach((subject: any) => {
+    moduleDetails.subjects.push({
+      "id": subject.idElp ,
+      "code": subject.codElp ,
+      "title": subject.licElp ,
+      "credit": subject.nbCrdElp
+    });
   });
+  return moduleDetails;
+};
+
+
+
+
+
+
+
+export const getSubjectDetails = async (idSubject: number) => {
+  console.log("BEGIN get step "+idSubject);
+
+  let subjectValues = await db.query('SELECT * \
+                                      FROM syllabus.syl_elps s \
+                                      WHERE s."idElp" = :id ; '
+                                      ,{replacements: {id:idSubject},
+                                        type: QueryTypes.SELECT });
+
+  let subjectDetails = {
+    "id": subjectValues[0].idElp ,
+    "title": subjectValues[0].licElp,
+    "description": subjectValues[0].descriptionElp,
+    "context":  subjectValues[0].contexteElp,
+    "content":  subjectValues[0].contenuElp
+  };
+
+  return subjectDetails;
 };
