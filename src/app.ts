@@ -9,16 +9,13 @@ dotenv.config();
 
 import api from './routes/router'; //router
 
-
 const dd_options = {
   'response_code': true,
-  'tags': ['app:api-formatech']
+  'tags': [`app:api-formatech${process.env.NODE_ENV}`]
 };
 
 const app = express();
 const port = process.env.SERVERPORT;
-
-
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://formatech.igpolytech.fr', 'https://formatech.igpolytech.fr'];
 app.use(cors({
@@ -32,7 +29,6 @@ app.use(cors({
     return callback(null, true);
   }
 }));
-
 
 //app.use(cors());
 //app.options("*", cors());
@@ -52,7 +48,7 @@ const logger = createLogger({
     format.splat(),
     format.json()
   ),
-  defaultMeta: { service: 'api-formatech' },
+  defaultMeta: { service: `api-formatech${process.env.NODE_ENV}` },
   transports: [
     new transports.File({ filename: 'logs/test.log' })
   ]
@@ -67,17 +63,12 @@ if (process.env.NODE_ENV !== 'production') {
       format.simple()
     )
   }));
-} else {
-  new transports.File({ filename: 'logs/test.log' });
 }
 
 app.use(connectDatadog(dd_options));
 
-
 // routes
 app.use('/api/', api);
-
-
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
