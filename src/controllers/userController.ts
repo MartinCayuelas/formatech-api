@@ -1,37 +1,23 @@
-import { Request, Response } from 'express';
 import User from '../models/user';
 import { hashPassword } from '../helpers/password.helper';
 
-const getUserByLogin = async (req: Request) => {
+function getUserByLogin(loginToCkeck: string): Promise<User> {
   return User.findOne({
     where: {
-      login: req.body.login
+      login: loginToCkeck
     }
   });
-};
+}
 
-const addUser = async (req: Request, res: Response) => {
+async function addUser(login: string, password: string): Promise<User | undefined> {
   const userData = {
-    login: req.body.login,
-    password: hashPassword(req.body.password)
+    login: login,
+    password: hashPassword(password)
   };
-  User.findOne({
-    where: {
-      login: req.body.login
-    }
-  }).then((user: User | null) => {
-    if (!user) {
-      User.create(userData)
-        .then(() => {
-          res.sendStatus(201);
-        })
-        .catch(() => {
-          res.sendStatus(404);
-        });
-    } else {
-      res.send('Login déjà existant');
-    }
-  });
-};
+  const user = await getUserByLogin(login);
+  if (!user) {
+    return User.create(userData);
+  }
+}
 
-export { getUserByLogin, addUser };
+export = { getUserByLogin, addUser };
