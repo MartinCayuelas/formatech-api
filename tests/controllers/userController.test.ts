@@ -5,6 +5,7 @@ import userController from '../../src/controllers/userController';
 import User from '../../src/models/user';
 
 test('Should be one more user', async () => {
+  
   //GIVEN
   const users: User[] = await userController.getAllUsers();
   //WHEN
