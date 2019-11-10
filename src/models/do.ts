@@ -1,7 +1,7 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-export class Do extends Model {
+class Do extends Model {
   public idDo!: number;
   public title!: string;
   public content!: string;
@@ -33,3 +33,4 @@ Do.init(
   }
 );
 
+export = Do;

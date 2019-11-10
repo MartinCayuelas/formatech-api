@@ -1,7 +1,7 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-export class Ig extends Model {
+class Ig extends Model {
   public idIg!: number;
   public title!: string;
   public content!: string;
@@ -33,3 +33,4 @@ Ig.init(
   }
 );
 
+export = Ig;
