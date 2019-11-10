@@ -11,7 +11,7 @@ import api from './routes/router'; //router
 
 const dd_options = {
   'response_code': true,
-  'tags': [`app:api-formatech${process.env.NODE_ENV}`]
+  'tags': [`app:api-formatech-${process.env.NODE_ENV}`]
 };
 
 const app = express();
@@ -48,7 +48,7 @@ const logger = createLogger({
     format.splat(),
     format.json()
   ),
-  defaultMeta: { service: `api-formatech${process.env.NODE_ENV}` },
+  defaultMeta: { service: `api-formatech-${process.env.NODE_ENV}` },
   transports: [
     new transports.File({ filename: 'logs/test.log' })
   ]
