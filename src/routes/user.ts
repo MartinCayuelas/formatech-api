@@ -33,6 +33,8 @@ userRouter.post('/connexion', async (req: Request, res: Response) => {
         res.status(200);
         res.send(token);
       }
+    } else {
+      res.sendStatus(404);
     }
   } catch (error) {
     res.sendStatus(401);
