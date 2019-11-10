@@ -41,7 +41,7 @@ app.use(helmet());
 app.use(connectDatadog(dd_options));
 
 // routes
-app.use('/api/', api);
+app.use(api);
 
 app.get('/', (req, res) => {
   logger.info('A request had been received on /');
