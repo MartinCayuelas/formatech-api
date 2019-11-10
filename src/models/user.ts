@@ -1,36 +1,32 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-class Contact extends Model {
-  public idContact!: number;
-  public name!: string;
-  public email!: string;
-  public position!: string;
+class User extends Model {
+  public idUser!: number;
+  public login!: string;
+  public password!: string;
 }
 
-Contact.init(
+User.init(
   {
-    idContact: {
+    idUser: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
+    login: {
       type: DataTypes.TEXT
     },
-    email: {
-      type: DataTypes.TEXT
-    },
-    position: {
+    password: {
       type: DataTypes.TEXT
     }
   },
   {
-    tableName: 'Contact',
+    tableName: 'User',
     timestamps: false,
     freezeTableName: true,
     sequelize: db
   }
 );
 
-export = Contact;
+export = User;
