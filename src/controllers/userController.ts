@@ -20,4 +20,11 @@ async function addUser(login: string, password: string): Promise<User | undefine
   }
 }
 
-export = { getUserByLogin, addUser };
+function deleteUser(id: string): Promise<number> {
+  return User.destroy({
+    where: {
+      idUser: id
+    }
+  });
+}
+export = { getUserByLogin, addUser, deleteUser };

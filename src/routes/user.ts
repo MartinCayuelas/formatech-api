@@ -70,11 +70,20 @@ userRouter.put('/modifier/:id', [checkJwt], (req: any, res: any) => {
     res.type('application/json');
     updateElemInHome(req, res);
 });
-
-//DELETE an elem with a given id
-userRouter.delete('/supprimer/:id', [checkJwt], (req: any, res: any) => {
-    res.type('application/json');
-    deleteElemInHome(req, res);
-});
 */
+//DELETE an elem with a given Login
+userRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Response) => {
+  res.type('application/json');
+  try {
+    const doElem: number = await userController.deleteUser(req.params.id);
+    if (doElem == 1) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+});
+
 export default userRouter;
