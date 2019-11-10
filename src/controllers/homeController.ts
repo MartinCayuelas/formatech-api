@@ -1,61 +1,39 @@
-const HomeModel = require('../models/home');
+import Home from '../models/home';
 
-export const displayHome = async (req: any, res: any) => {
-  HomeModel.findAll({
+function displayHome(): Promise<Home[]> {
+  return Home.findAll({
     order: [['idHome', 'ASC']]
-  }).then((homeElem: any) => {
-    res.type('application/json');
-    res.status(200);
-    res.send(homeElem); //Send the response
   });
-};
+}
 
-export const addElementInHome = async (req: any, res: any) => {
-  const datas = {
-    title: req.body.title,
-    content: req.body.content,
-    media: req.body.media
+function addElementInHome(elemHome: Home) {
+  const elemToCreate = {
+    title: elemHome.title,
+    content: elemHome.content,
+    media:elemHome.media
   };
+  return Home.create(elemToCreate);
+}
 
-  HomeModel.create(datas)
-    .then(() => {
-      res.sendStatus(201);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
-export const updateElemInHome = async (req: any, res: any) => {
-  HomeModel.update({
-    content: req.body.content,
-    title: req.body.title,
-    media: req.body.media
-  }, {
+function updateElemInHome(elemHome: Home,id: string): Promise<[number, Home[]]> {
+  const elemToUpdate = {
+    title: elemHome.title,
+    content: elemHome.content,
+    media:elemHome.media
+  };
+  return Home.update(elemToUpdate, {
     where: {
-      idHome: req.params.id
-    }
-  }).then((homeElem: any) => {
-    if (homeElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idHome: id
     }
   });
-};
+}
 
-export const deleteElemInHome = async (req: any, res: any) => {
-  HomeModel.destroy({
+function deleteElemInHome(id: string): Promise<number> {
+  return Home.destroy({
     where: {
-      idHome: req.params.id
-    }
-  }).then((homeElem: any) => {
-    if (homeElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idHome: id
     }
   });
-};
+}
 
-
+export = { displayHome, addElementInHome, updateElemInHome, deleteElemInHome };

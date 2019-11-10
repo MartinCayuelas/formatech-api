@@ -1,57 +1,39 @@
-const IgModel = require('../models/ig');
+import Ig from '../models/ig';
 
-export const displayIG = async (req: any, res: any) => {
-  IgModel.findAll({
+function displayIg(): Promise<Ig[]> {
+  return Ig.findAll({
     order: [['idIg', 'ASC']]
-  }).then((igElems: any) => {
-    res.send(igElems); //Send the response
   });
-};
+}
 
-export const addElementInIg = async (req: any, res: any) => {
-  const datas = {
-    title: req.body.title,
-    content: req.body.content,
-    media: req.body.media
+function addElementInIg(elemIg: Ig) {
+  const elemToCreate = {
+    title: elemIg.title,
+    content: elemIg.content,
+    media:elemIg.media
   };
+  return Ig.create(elemToCreate);
+}
 
-  IgModel.create(datas)
-    .then(() => {
-      res.sendStatus(201);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
-export const updateElemInIg = async (req: any, res: any) => {
-  IgModel.update({
-    content: req.body.content,
-    title: req.body.title,
-    media: req.body.media
-  }, {
+function updateElemInIg(elemIg: Ig,id: string): Promise<[number, Ig[]]> {
+  const elemToUpdate = {
+    title: elemIg.title,
+    content: elemIg.content,
+    media:elemIg.media
+  };
+  return Ig.update(elemToUpdate, {
     where: {
-      idIg: req.params.id
-    }
-  }).then((igElem: any) => {
-    if (igElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idIg: id
     }
   });
-};
+}
 
-export const deleteElemInIg = async (req: any, res: any) => {
-  IgModel.destroy({
+function deleteElemInIg(id: string): Promise<number> {
+  return Ig.destroy({
     where: {
-      idIg: req.params.id
-    }
-  }).then((igElem: any) => {
-    if (igElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idIg: id
     }
   });
-};
+}
+
+export = { displayIg, addElementInIg, updateElemInIg, deleteElemInIg };

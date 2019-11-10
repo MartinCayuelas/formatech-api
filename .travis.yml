@@ -9,7 +9,7 @@ addons:
 stages:
 - tests
 - name: deploy
-  if: branch =~ /^(master|dev)$/
+  if: branch =~ /^(master|dev)$/ AND type != pull_request
 jobs:
   include:
   - stage: tests
@@ -34,13 +34,11 @@ jobs:
       script: bash .travis/deploy.sh staging
       on:
         branch: dev
-        condition: type != pull_request
     - provider: script
       skip_cleanup: true
       script: bash .travis/deploy.sh production
       on:
         branch: master
-        condition: type != pull_request
 
 env:
   global:

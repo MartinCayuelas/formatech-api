@@ -1,59 +1,39 @@
-const DoModel = require('../models/do');
+import Do from '../models/do';
 
-export const displayDO = async (req: any, res: any) => {
-  DoModel.findAll({
+function displayDo(): Promise<Do[]> {
+  return Do.findAll({
     order: [['idDo', 'ASC']]
-  }).then((doElems: any) => {
-    res.type('application/json');
-    res.status(200);
-    res.send(doElems); //Send the response
   });
-};
+}
 
-export const addElementInDO = async (req: any, res: any) => {
-  const datas = {
-    title: req.body.title,
-    content: req.body.content,
-    media: req.body.media
+function addElementInDo(elemDo: Do) {
+  const elemToCreate = {
+    title: elemDo.title,
+    content: elemDo.content,
+    media:elemDo.media
   };
+  return Do.create(elemToCreate);
+}
 
-  DoModel.create(datas)
-    .then(() => {
-      res.sendStatus(201);
-    })
-    .catch(() => {
-      res.sendStatus(404);
-    });
-};
-
-export const updateElemInDO = async (req: any, res: any) => {
-  DoModel.update({
-    content: req.body.content,
-    title: req.body.title,
-    media: req.body.media
-  }, {
+function updateElemInDo(elemDo: Do,id: string): Promise<[number, Do[]]> {
+  const elemToUpdate = {
+    title: elemDo.title,
+    content: elemDo.content,
+    media:elemDo.media
+  };
+  return Do.update(elemToUpdate, {
     where: {
-      idDo: req.params.id
-    }
-  }).then((doElem: any) => {
-    if (doElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idDo: id
     }
   });
-};
+}
 
-export const deleteElemInDO = async (req: any, res: any) => {
-  DoModel.destroy({
+function deleteElemInDo(id: string): Promise<number> {
+  return Do.destroy({
     where: {
-      idDo: req.params.id
-    }
-  }).then((doElem: any) => {
-    if (doElem == 1) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
+      idDo: id
     }
   });
-};
+}
+
+export = { displayDo, addElementInDo, updateElemInDo, deleteElemInDo };

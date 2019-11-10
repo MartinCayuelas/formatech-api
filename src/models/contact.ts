@@ -1,36 +1,36 @@
 import db from '../config/database';
 import { Model, DataTypes } from 'sequelize';
 
-class Do extends Model {
-  public idDo!: number;
-  public title!: string;
-  public content!: string;
-  public media!: string;
+class Contact extends Model {
+  public idContact!: number;
+  public name!: string;
+  public email!: string;
+  public position!: string;
 }
 
-Do.init(
+Contact.init(
   {
-    idDo: {
+    idContact: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    title: {
+    name: {
       type: DataTypes.TEXT
     },
-    content: {
+    email: {
       type: DataTypes.TEXT
     },
-    media: {
+    position: {
       type: DataTypes.TEXT
     }
   },
   {
-    tableName: 'Do',
+    tableName: 'Contact',
     timestamps: false,
     freezeTableName: true,
     sequelize: db
   }
 );
 
-export = Do;
+export = Contact;
