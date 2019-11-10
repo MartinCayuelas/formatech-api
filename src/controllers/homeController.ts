@@ -10,16 +10,16 @@ function addElementInHome(elemHome: Home) {
   const elemToCreate = {
     title: elemHome.title,
     content: elemHome.content,
-    media:elemHome.media
+    media: elemHome.media
   };
   return Home.create(elemToCreate);
 }
 
-function updateElemInHome(elemHome: Home,id: string): Promise<[number, Home[]]> {
+function updateElemInHome(elemHome: Home, id: string): Promise<[number, Home[]]> {
   const elemToUpdate = {
     title: elemHome.title,
     content: elemHome.content,
-    media:elemHome.media
+    media: elemHome.media
   };
   return Home.update(elemToUpdate, {
     where: {
@@ -36,4 +36,13 @@ function deleteElemInHome(id: string): Promise<number> {
   });
 }
 
-export = { displayHome, addElementInHome, updateElemInHome, deleteElemInHome };
+function getHomeByTitle(titleToCheck: string): Promise<Home> {
+  return Home.findOne({
+    where: {
+      title: titleToCheck
+    }
+  });
+}
+
+
+export = { displayHome, addElementInHome, updateElemInHome, deleteElemInHome, getHomeByTitle };

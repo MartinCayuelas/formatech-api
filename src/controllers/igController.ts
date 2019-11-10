@@ -10,16 +10,16 @@ function addElementInIg(elemIg: Ig) {
   const elemToCreate = {
     title: elemIg.title,
     content: elemIg.content,
-    media:elemIg.media
+    media: elemIg.media
   };
   return Ig.create(elemToCreate);
 }
 
-function updateElemInIg(elemIg: Ig,id: string): Promise<[number, Ig[]]> {
+function updateElemInIg(elemIg: Ig, id: string): Promise<[number, Ig[]]> {
   const elemToUpdate = {
     title: elemIg.title,
     content: elemIg.content,
-    media:elemIg.media
+    media: elemIg.media
   };
   return Ig.update(elemToUpdate, {
     where: {
@@ -36,4 +36,12 @@ function deleteElemInIg(id: string): Promise<number> {
   });
 }
 
-export = { displayIg, addElementInIg, updateElemInIg, deleteElemInIg };
+function getIgByTitle(titleToCheck: string): Promise<Ig> {
+  return Ig.findOne({
+    where: {
+      title: titleToCheck
+    }
+  });
+}
+
+export = { displayIg, addElementInIg, updateElemInIg, deleteElemInIg, getIgByTitle };

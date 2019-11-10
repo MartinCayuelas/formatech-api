@@ -10,16 +10,16 @@ function addElementInDo(elemDo: Do) {
   const elemToCreate = {
     title: elemDo.title,
     content: elemDo.content,
-    media:elemDo.media
+    media: elemDo.media
   };
   return Do.create(elemToCreate);
 }
 
-function updateElemInDo(elemDo: Do,id: string): Promise<[number, Do[]]> {
+function updateElemInDo(elemDo: Do, id: string): Promise<[number, Do[]]> {
   const elemToUpdate = {
     title: elemDo.title,
     content: elemDo.content,
-    media:elemDo.media
+    media: elemDo.media
   };
   return Do.update(elemToUpdate, {
     where: {
@@ -36,4 +36,12 @@ function deleteElemInDo(id: string): Promise<number> {
   });
 }
 
-export = { displayDo, addElementInDo, updateElemInDo, deleteElemInDo };
+function getDoByTitle(titleToCheck: string): Promise<Do> {
+  return Do.findOne({
+    where: {
+      title: titleToCheck
+    }
+  });
+}
+
+export = { displayDo, addElementInDo, updateElemInDo, deleteElemInDo, getDoByTitle };
