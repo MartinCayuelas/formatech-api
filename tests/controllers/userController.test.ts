@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import userController from '../../src/controllers/userController';
 import User from '../../src/models/user';
 

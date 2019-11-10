@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import contactController from '../../src/controllers/contactController';
 import Contact from '../../src/models/contact';
 

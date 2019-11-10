@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import DoController from '../../src/controllers/doController';
 import Do from '../../src/models/do';
 

@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import IgController from '../../src/controllers/igController';
 import Ig from '../../src/models/ig';
 

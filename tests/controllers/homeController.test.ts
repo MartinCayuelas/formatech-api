@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import HomeController from '../../src/controllers/homeController';
 import Home from '../../src/models/home';
 
