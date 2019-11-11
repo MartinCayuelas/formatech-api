@@ -121,8 +121,7 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 ![#49f053 ](https://placehold.it/15/49f053/000000?text=+) **POST** - ``/utilisateur/connexion`` - Connecte un utilisateur et renvoie un token.
    - 201 - Elément créé
    - 400 - Un ou des élèments ne vont pas dans la requête. Dans la réponse se trouve un champ errors contenant un tableau de string décrivant les erreurs
-   - 401 - L'utilisateur doit être connecté pour réaliser l'action
-   - 403 - L'utilisateur connecté ne peut accéder à la ressource
+   - 404 - Utilisateur non trouvé
 
 
 ![#49f053 ](https://placehold.it/15/49f053/000000?text=+) **POST** - ``/utilisateur/inscription`` - Créer un nouvel utilisateur dans la table utilisateur.

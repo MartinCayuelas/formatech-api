@@ -37,7 +37,7 @@ userRouter.post('/connexion', async (req: Request, res: Response) => {
       res.sendStatus(404);
     }
   } catch (error) {
-    res.sendStatus(401);
+    res.sendStatus(500).json(error.message);
   }
 
 });
