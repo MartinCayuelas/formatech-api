@@ -10,6 +10,7 @@ Luciano, Martin Cayuelas
 Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 
 ### Accueil
+
 ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/accueil`` -  Renvoie l'ensemble des éléments de la page d'accueil.
   - 200 - Il y a des éléments à renvoyer
   - 204 - Pas d'éléments à afficher
@@ -31,6 +32,9 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 - 401 - L'utilisateur doit être connecté pour réaliser l'action
 - 403 - L'utilisateur connecté ne peut accéder à la ressource
 - 404 - Le contenu n'a pas pu être supprimé car aucun élément de ne correspondait dans la BD
+
+------------
+
 
 ### IG
  ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/ig`` -  Renvoie l'ensemble des éléments de la page d'ig.
@@ -55,6 +59,9 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 - 403 - L'utilisateur connecté ne peut accéder à la ressource
 - 404 - Le contenu n'a pas pu être supprimé car aucun élément de ne correspondait dans la BD
 
+------------
+
+
 ### DO
 ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/do`` -  Renvoie l'ensemble des éléments de la page do.
   - 200 - Il y a des éléments à renvoyer
@@ -77,6 +84,9 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 - 401 - L'utilisateur doit être connecté pour réaliser l'action
 - 403 - L'utilisateur connecté ne peut accéder à la ressource
 - 404 - Le contenu n'a pas pu être supprimé car aucun élément de ne correspondait dans la BD
+
+------------
+
 
 ### Contact
 ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/contact`` -  Renvoie l'ensemble des éléments de la page des contacts.
@@ -101,6 +111,9 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 - 403 - L'utilisateur connecté ne peut accéder à la ressource
 - 404 - Le contenu n'a pas pu être supprimé car aucun élément de ne correspondait dans la BD
 
+------------
+
+
 ### Utilisateur
 ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/utilisateur/token`` -  Renvoie true si le token est valide false sinon.
 - 200 - Requete OK
@@ -118,7 +131,9 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
    - 401 - L'utilisateur doit être connecté pour réaliser l'action
    - 403 - L'utilisateur connecté ne peut accéder à la ressource
 
+------------
+
+
 ### Sagesse
 TODO
-
 
