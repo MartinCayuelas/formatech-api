@@ -86,4 +86,16 @@ userRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Respon
   }
 });
 
+//Get a text from the API and send it
+userRouter.get('/', async (req: Request, res: Response) => {
+  res.type('application/json');
+  try {
+    const users: User[] = await userController.getAllUsers();
+    res.status(200).json(users);
+  } catch (e) {
+    res.status(500).json(e.message);
+  }
+});
+
+
 export default userRouter;
