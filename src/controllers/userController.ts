@@ -1,6 +1,12 @@
 import User from '../models/user';
 import { hashPassword } from '../helpers/password.helper';
 
+function getAllUsers(): Promise<User[]> {
+  return User.findAll({
+    order: [['idUser', 'ASC']]
+  });
+}
+
 function getUserByLogin(loginToCkeck: string): Promise<User> {
   return User.findOne({
     where: {
@@ -27,4 +33,4 @@ function deleteUser(id: string): Promise<number> {
     }
   });
 }
-export = { getUserByLogin, addUser, deleteUser };
+export = { getUserByLogin, addUser, deleteUser, getAllUsers };
