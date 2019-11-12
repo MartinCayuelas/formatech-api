@@ -83,7 +83,56 @@ export const getStepDetails = async (idStep : number) => {
       'credit': period.nbCrdElp
     });
   });
+  return stepDetails;
+};
 
+
+export const getModuleFromStep = async (idStep : number) => {
+  console.log('BEGIN get module from step '+idStep);
+
+  let stepValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
+
+  let periods = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
+
+  let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
+
+  let stepDetails = {
+    'id': stepValues[0].idElp ,
+    'title': stepValues[0].licElp,
+    'description': stepValues[0].descriptionElp,
+    'context':  stepValues[0].contexteElp,
+    'content':  stepValues[0].contenuElp,
+    'cm': duree[0].hCM,
+    'cmtd': duree[0].hCMTD,
+    'td': duree[0].hTD,
+    'tp': duree[0].hTP,
+    'terrain': duree[0].hTerrain,
+    'projet': duree[0].hProjet,
+    'periods':[] as any
+  };
+
+  let i= 0;
+  for (const period of periods){
+    let modules = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idModule" FROM sagesse.flat_elps f WHERE f."idPeriode" = :id ) ; ', {replacements: {id:period.idElp, type:'module'}, type: QueryTypes.SELECT });
+
+    stepDetails.periods.push({
+      'id': period.idElp ,
+      'code': period.codElp,
+      'title': period.licElp,
+      'credit': period.nbCrdElp,
+      'modules': [] as any
+    });
+
+    modules.forEach((module: any) => {
+      stepDetails.periods[i].modules.push({
+        'id': module.idElp ,
+        'code': module.codElp,
+        'title': module.licElp,
+        'credit': module.nbCrdElp,
+      });
+    });
+    i = i+1;
+  }
   return stepDetails;
 };
 

@@ -3,7 +3,7 @@ import { getModuleDetails } from '../controllers/Module';
 import { getSemesterDetails } from '../controllers/Semester';
 import { getStepDetails } from '../controllers/Step';
 import { getFormationDetails } from '../controllers/Formation';*/
-import { getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
+import { getModuleFromStep, getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
 
 import { Router, Request, Response } from 'express';
 const sagesseRouter = Router();
@@ -94,6 +94,22 @@ sagesseRouter.get('/step/:id/', (req: Request, res: Response) => {
       console.log(error);
     });
 });
+
+
+//send informations about a year
+sagesseRouter.get('/step/:id/modules', (req: Request, res: Response) => {
+  res.type('application/json');
+  res.status(200);
+
+  getModuleFromStep(parseInt(req.params.id))
+    .then((modulesFromStep: Object) => {
+      res.send(modulesFromStep);
+    })
+    .catch( (error : any) => {
+      console.log(error);
+    });
+});
+
 
 
 export default sagesseRouter;
