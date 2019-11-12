@@ -115,6 +115,33 @@ export const getModuleFromStep = async (idStep : number) => {
   for (const period of periods){
     let modules = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idModule" FROM sagesse.flat_elps f WHERE f."idPeriode" = :id ) ; ', {replacements: {id:period.idElp, type:'module'}, type: QueryTypes.SELECT });
 
+    let categoryArray = [];
+    for (const module of modules){
+      let moduleWithCategory = module;
+      let cat = await moduleCategory.findAll({
+        attributes: ['category'],
+        where: {idmodule: module.idElp}
+      });
+      if (typeof cat==='undefined' || typeof cat[0]==='undefined'){
+        moduleWithCategory.category = 'this UE doesn\'t have a category for the moment';
+      }
+      else{
+        moduleWithCategory.category = cat[0].category;
+      }
+      categoryArray.push(moduleWithCategory);
+    }
+
+/*
+    modules = modules.map( async (module:any) => {
+      let category = await moduleCategory.findAll({
+        attributes: ['category'],
+        where: {idmodule: module.idElp}
+      });
+      module.category = category[0].category ;
+      return module;
+    })
+*/
+
     stepDetails.periods.push({
       'id': period.idElp ,
       'code': period.codElp,
@@ -129,15 +156,13 @@ export const getModuleFromStep = async (idStep : number) => {
         'code': module.codElp,
         'title': module.licElp,
         'credit': module.nbCrdElp,
+        'category': module.category,
       });
     });
     i = i+1;
   }
   return stepDetails;
 };
-
-
-
 
 
 
@@ -171,7 +196,6 @@ export const getPeriodDetails = async (idPeriod: number) => {
   });
   return periodDetails;
 };
-
 
 
 

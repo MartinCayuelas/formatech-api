@@ -47,9 +47,7 @@ moduleCategory.bulkCreate([
   { idmodule: 203 , category: 'Traitement de données' },
   { idmodule: 204 , category: 'Gestion et communication' },
   { idmodule: 205 , category: 'Systèmes d information' },
-  { idmodule: 204 , category: 'Gestion et communication' },
-  { idmodule: 205 , category: 'Systèmes d information' },
-  { idmodule: 205 , category: 'Traitement de données' },
+  { idmodule: 206 , category: 'Traitement de données' },
 ]);
 
 export = moduleCategory;
