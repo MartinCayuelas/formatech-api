@@ -25,7 +25,7 @@ userRouter.post('/connexion', async (req: Request, res: Response) => {
         res.sendStatus(401);
       } else {
         //Sing JWT, valid for 1 hour
-        const token = jwt.sign({ idUser: user.idUser, login: user.login }, process.env.Secret_Key_JWT!, {
+        const token = jwt.sign({ idUser: user.idUser, login: user.login }, process.env.SECRET_KEY_JWT!, {
           expiresIn: '1h'
         });
 
