@@ -37,13 +37,13 @@ userRouter.post('/connexion', async (req: Request, res: Response) => {
       res.sendStatus(404);
     }
   } catch (error) {
-    res.sendStatus(401);
+    res.sendStatus(500).json(error.message);
   }
 
 });
 
 //Insert in the DB
-userRouter.post('/inscrire', [checkJwt], async (req: Request, res: Response) => {
+userRouter.post('/inscrire', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     const user = await userController.addUser(req.body.login, req.body.password);
@@ -96,6 +96,5 @@ userRouter.get('/', async (req: Request, res: Response) => {
     res.status(500).json(e.message);
   }
 });
-
 
 export default userRouter;
