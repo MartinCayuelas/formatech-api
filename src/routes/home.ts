@@ -4,7 +4,7 @@ import checkJwt from '../middlewares/auth.middleware';
 import Home from '../models/home';
 const homeRouter = Router();
 
-//Get a text from the API and send it
+//Get  all ellements in Home from the API and send it
 homeRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
