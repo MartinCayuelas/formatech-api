@@ -20,7 +20,8 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
         expiresIn: '1h'
       });
       res.setHeader('tokenFormatech', newToken);
-
+      //Call the next middleware or controller
+      next();
     } else {
       //If token is not valid or not existing, respond with 401 (unauthorized)
       res.sendStatus(401);
@@ -30,8 +31,7 @@ const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(401);
   }
 
-  //Call the next middleware or controller
-  next();
+
 };
 
 export = checkJwt;
