@@ -4,7 +4,7 @@ import { Router, Request, Response } from 'express';
 import Contact from '../models/contact';
 const contactRouter = Router();
 
-//Get a text from the API and send it
+//Get  all ellements in Contact from the API and send it
 contactRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {

@@ -4,7 +4,7 @@ import checkJwt from '../middlewares/auth.middleware';
 import Ig from '../models/ig';
 const igRouter = Router();
 
-//Get a text from the API and send it
+//Get all ellements in IG from the API and send it
 igRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {

@@ -4,7 +4,7 @@ import checkJwt from '../middlewares/auth.middleware';
 import Do from '../models/do';
 const doRouter = Router();
 
-//Get a text from the API and send it
+//Get  all ellements in Do from the API and send it
 doRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {

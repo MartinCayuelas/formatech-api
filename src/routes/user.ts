@@ -6,7 +6,7 @@ import User from '../models/user';
 import { checkIfUnencryptedPasswordIsValid } from '../helpers/password.helper';
 const userRouter = Router();
 
-//Get a text from the API and send it
+//Get a user from the Db with a given login and checks if passwords matchs. If it's OK, a token is generated and sended to the client side
 userRouter.post('/connexion', async (req: Request, res: Response) => {
   res.type('application/json');
 
@@ -57,7 +57,7 @@ userRouter.post('/inscrire', [checkJwt], async (req: Request, res: Response) => 
   }
 });
 
-//Insert in the DB
+//Verify the token
 userRouter.get('/token', [checkJwt], (req: Request, res: Response) => {
   res.type('application/json');
   res.sendStatus(200);
@@ -86,7 +86,7 @@ userRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Respon
   }
 });
 
-//Get a text from the API and send it
+//Get all the users registered from the API and send it
 userRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
