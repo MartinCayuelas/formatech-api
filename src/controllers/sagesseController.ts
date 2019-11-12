@@ -1,8 +1,10 @@
 const { Sequelize, QueryTypes } = require('sequelize');
 //import db from '../config/sagesse_database';
-
 //const db = new Sequelize('postgres://consultation:adobe29;borines@sagesse.polytech.umontpellier.fr:5432/sagesse20&ssl=true');
 const db = new Sequelize('sagesse20', 'consultation', 'adobe29;borines', {host: 'sagesse.polytech.umontpellier.fr', port: 5432, dialect: 'postgres', native: true, quoteIdentifiers: true});
+import moduleCategory from '../models/moduleCategory';
+
+
 
 
 export const testConnexion = async () => {
@@ -54,16 +56,24 @@ export const getStepDetails = async (idStep : number) => {
 
   let stepValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
 
+  let periods = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
+
+  let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
+
   let stepDetails = {
     'id': stepValues[0].idElp ,
     'title': stepValues[0].licElp,
     'description': stepValues[0].descriptionElp,
     'context':  stepValues[0].contexteElp,
     'content':  stepValues[0].contenuElp,
+    'cm': duree[0].hCM,
+    'cmtd': duree[0].hCMTD,
+    'td': duree[0].hTD,
+    'tp': duree[0].hTP,
+    'terrain': duree[0].hTerrain,
+    'projet': duree[0].hProjet,
     'periods':[] as any
   };
-
-  let periods = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
 
   periods.forEach((period: any) => {
     stepDetails.periods.push({
@@ -124,16 +134,46 @@ export const getModuleDetails = async (idModule: number) => {
 
   let moduleValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idModule}, type: QueryTypes.SELECT });
 
+  let subjects = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idMatiere" FROM sagesse.flat_elps f WHERE f."idModule" = :id ) ; ', {replacements: {id:idModule, type:'matière'}, type: QueryTypes.SELECT });
+
+  let idParent = await db.query('SELECT f."idPeriode", f."idEtape" FROM sagesse.flat_elps f WHERE f."idModule" = :id', {replacements: {id:idModule}, type: QueryTypes.SELECT });
+
+  let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:moduleValues[0].idDuree}, type: QueryTypes.SELECT});
+
+  let cat : moduleCategory[] = await moduleCategory.findAll({
+    attributes: ['category'],
+    where: {idmodule: idModule}
+  });
+
+  let category : string = '';
+
+  if (typeof cat==='undefined' || typeof cat[0]==='undefined'){
+    category = 'this UE doesn\'t have a category for the moment';
+  }
+  else{
+    category = cat[0].category;
+  }
+
+
+
   let moduleDetails = {
     'id': moduleValues[0].idElp ,
     'title': moduleValues[0].licElp,
     'description': moduleValues[0].descriptionElp,
     'context':  moduleValues[0].contexteElp,
     'content':  moduleValues[0].contenuElp,
+    'idParentStep': idParent[0].idEtape,
+    'idParentSemester': idParent[0].idPeriode,
+    'category': category,
+    'cm': duree[0].hCM,
+    'cmtd': duree[0].hCMTD,
+    'td': duree[0].hTD,
+    'tp': duree[0].hTP,
+    'terrain': duree[0].hTerrain,
+    'projet': duree[0].hProjet,
     'subjects':[] as any
   };
 
-  let subjects = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idMatiere" FROM sagesse.flat_elps f WHERE f."idModule" = :id ) ; ', {replacements: {id:idModule, type:'matière'}, type: QueryTypes.SELECT });
 
   subjects.forEach((subject: any) => {
     moduleDetails.subjects.push({
