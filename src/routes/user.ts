@@ -43,7 +43,7 @@ userRouter.post('/connexion', async (req: Request, res: Response) => {
 });
 
 //Insert in the DB
-userRouter.post('/inscrire', [checkJwt], async (req: Request, res: Response) => {
+userRouter.post('/inscrire', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     const user = await userController.addUser(req.body.login, req.body.password);
