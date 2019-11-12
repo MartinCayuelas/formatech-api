@@ -131,17 +131,6 @@ export const getModuleFromStep = async (idStep : number) => {
       categoryArray.push(moduleWithCategory);
     }
 
-/*
-    modules = modules.map( async (module:any) => {
-      let category = await moduleCategory.findAll({
-        attributes: ['category'],
-        where: {idmodule: module.idElp}
-      });
-      module.category = category[0].category ;
-      return module;
-    })
-*/
-
     stepDetails.periods.push({
       'id': period.idElp ,
       'code': period.codElp,
