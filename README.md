@@ -134,5 +134,26 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 
 
 ### Sagesse
-TODO
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/:nomFormation`` -  Renvoie les informations détaillées de la formation ainsi que des informations générales sur ses différentes années.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Formation non trouvée
 
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/step/:id`` -  Renvoie les informations détaillées de l'année ainsi que des informations générales sur ses différents semestres.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Année non trouvée
+
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/step/:id/modules`` -  Renvoie les informations détaillées de la matière, les informations générales de ses semestres et des modules de ses semestres
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Année non trouvée
+
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/period/:id`` -  Renvoie les informations détaillées du semestre ainsi que des informations générales sur ses différents modules.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Semestre non trouvée
+
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/module/:id`` -  Renvoie les informations détaillées du module ainsi que des informations générales sur ses différentes matières.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Module non trouvée
+
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/subject/:id`` -  Renvoie les informations détaillées de la matière.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Matière non trouvée

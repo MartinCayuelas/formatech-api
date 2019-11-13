@@ -14,7 +14,7 @@ moduleCategory.init(
       autoIncrement: true
     },
     category: {
-      type: DataTypes.ENUM('Gestion de projet', 'Traitement de données', 'Gestion et communication', 'Langues et communication', 'Logique et algorithmie', 'Systèmes d information', 'Techniques de l ingénieur', 'Data science')
+      type: DataTypes.ENUM('IA','Data','Sécurité','Ops','Pro','Exploitation','Dev','SI','Gestion de projet', 'Traitement de données', 'Gestion et communication', 'Langues et communication', 'Logique et algorithmie', 'Systèmes d information', 'Techniques de l ingénieur', 'Data science')
     }
   },
   {
@@ -48,6 +48,37 @@ moduleCategory.bulkCreate([
   { idmodule: 204 , category: 'Gestion et communication' },
   { idmodule: 205 , category: 'Systèmes d information' },
   { idmodule: 206 , category: 'Traitement de données' },
+
+  { idmodule: 1095 , category: 'SI' },
+  { idmodule: 1100 , category: 'Dev' },
+  { idmodule: 1106 , category: 'Exploitation' },
+  { idmodule: 1111 , category: 'Pro' },
+  { idmodule: 1114 , category: 'Pro' },
+  { idmodule: 1120 , category: 'Exploitation' },
+  { idmodule: 1125 , category: 'Dev' },
+  { idmodule: 1129 , category: 'Ops' },
+  { idmodule: 1134 , category: 'Pro' },
+  { idmodule: 1137 , category: 'Pro' },
+  { idmodule: 1145 , category: 'Data' },
+  { idmodule: 1150 , category: 'Dev' },
+  { idmodule: 1154 , category: 'Ops' },
+  { idmodule: 1160 , category: 'Pro' },
+  { idmodule: 1163 , category: 'Pro' },
+  { idmodule: 1169 , category: 'Data' },
+  { idmodule: 1174 , category: 'Dev' },
+  { idmodule: 1177 , category: 'Ops' },
+  { idmodule: 1181 , category: 'Pro' },
+  { idmodule: 1184 , category: 'Pro' },
+  { idmodule: 1192 , category: 'Exploitation' },
+  { idmodule: 1198 , category: 'Sécurité' },
+  { idmodule: 1204 , category: 'Ops' },
+  { idmodule: 1209 , category: 'Pro' },
+  { idmodule: 1212 , category: 'Pro' },
+  { idmodule: 1219 , category: 'IA' },
+  { idmodule: 1222 , category: 'Dev' },
+  { idmodule: 1226 , category: 'Ops' },
+  { idmodule: 1230 , category: 'Pro' },
+  { idmodule: 1233 , category: 'Pro' },
 ]);
 
 export = moduleCategory;
