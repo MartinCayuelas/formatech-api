@@ -48,7 +48,6 @@ moduleCategory.bulkCreate([
   { idmodule: 204 , category: 'Gestion et communication' },
   { idmodule: 205 , category: 'Systèmes d information' },
   { idmodule: 206 , category: 'Traitement de données' },
-
   { idmodule: 1095 , category: 'SI' },
   { idmodule: 1100 , category: 'Dev' },
   { idmodule: 1106 , category: 'Exploitation' },

@@ -104,7 +104,7 @@ export const getModuleFromStep = async (idStep : number) => {
   }
 
   let periods = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
-  let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
+  //let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
 
   let stepDetails = {
     'id': stepValues[0].idElp ,
@@ -112,12 +112,12 @@ export const getModuleFromStep = async (idStep : number) => {
     'description': stepValues[0].descriptionElp,
     'context':  stepValues[0].contexteElp,
     'content':  stepValues[0].contenuElp,
-    'cm': duree[0].hCM,
+    /*'cm': duree[0].hCM,
     'cmtd': duree[0].hCMTD,
     'td': duree[0].hTD,
     'tp': duree[0].hTP,
     'terrain': duree[0].hTerrain,
-    'projet': duree[0].hProjet,
+    'projet': duree[0].hProjet,*/
     'periods':[] as any
   };
 
