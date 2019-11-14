@@ -1,7 +1,7 @@
 const { Sequelize, QueryTypes } = require('sequelize');
-const db = new Sequelize(process.env.SAGESSE_DATABASE_NAME!, process.env.SAGESSE_USER!, process.env.SAGESSE_PASSWORD!, {host: process.env.SAGESSE_HOST!, port: process.env.SAGESSE_PORT!, dialect: 'postgres', native: true, quoteIdentifiers: true});
+//const db = new Sequelize(process.env.SAGESSE_DATABASE_NAME!, process.env.SAGESSE_USER!, process.env.SAGESSE_PASSWORD!, {host: process.env.SAGESSE_HOST!, port: process.env.SAGESSE_PORT!, dialect: 'postgres', native: true, quoteIdentifiers: true});
 import moduleCategory from '../models/moduleCategory';
-//import { db } from '../config/sagesse_database';
+import { db } from '../config/sagesse_database';
 
 
 
@@ -22,17 +22,17 @@ export const testConnexion = async () => {
 export const getFormationDetails = async (nomFormation : string) => {
   console.log('BEGIN of get formation');
 
-  let formationInfo = await db.query('SELECT * FROM sagesse.parcours p WHERE p."codParcours" = :codP ; ', { replacements: {codP:nomFormation}, type: QueryTypes.SELECT});
-
+  let formationInfo: any = await db.query('SELECT * FROM sagesse.parcours p WHERE p."codParcours" = :codP ; ', { replacements: {codP:nomFormation}, type: QueryTypes.SELECT});
+  console.log(formationInfo);
   if (formationInfo.length == 0){
     throw TypeError('Formation not found');
   }
 
   let formationDetails = {
-    'id': formationInfo[0].idParcours ,
-    'code': formationInfo[0].codParcours ,
-    'title': formationInfo[0].licParcours ,
-    'description':formationInfo[0].descParcours ,
+    'id': formationInfo[0]!.idParcours ,
+    'code': formationInfo[0]!.codParcours ,
+    'title': formationInfo[0]!.licParcours ,
+    'description':formationInfo[0]!.descParcours ,
     'steps': [] as any
   };
 
@@ -57,7 +57,7 @@ export const getFormationDetails = async (nomFormation : string) => {
 export const getStepDetails = async (idStep : number) => {
   console.log('BEGIN get step '+idStep);
 
-  let stepValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
+  let stepValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
 
   if (stepValues.length == 0){
     throw TypeError('Annee not found');
@@ -68,11 +68,11 @@ export const getStepDetails = async (idStep : number) => {
   //let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
 
   let stepDetails = {
-    'id': stepValues[0].idElp ,
-    'title': stepValues[0].licElp,
-    'description': stepValues[0].descriptionElp,
-    'context':  stepValues[0].contexteElp,
-    'content':  stepValues[0].contenuElp,
+    'id': stepValues[0]!.idElp ,
+    'title': stepValues[0]!.licElp,
+    'description': stepValues[0]!.descriptionElp,
+    'context':  stepValues[0]!.contexteElp,
+    'content':  stepValues[0]!.contenuElp,
     /*'cm': duree[0].hCM,
     'cmtd': duree[0].hCMTD,
     'td': duree[0].hTD,
@@ -97,21 +97,21 @@ export const getStepDetails = async (idStep : number) => {
 export const getModuleFromStep = async (idStep : number) => {
   console.log('BEGIN get module from step '+idStep);
 
-  let stepValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
+  let stepValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :idStep ; ',{replacements: {idStep:idStep}, type: QueryTypes.SELECT });
 
   if (stepValues.length == 0){
     throw TypeError('Annee not found');
   }
 
-  let periods = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
+  let periods: any = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idPeriode" FROM sagesse.flat_elps f WHERE f."idEtape" = :idStep ) ; ',{replacements: {idStep:idStep, type:'période'}, type: QueryTypes.SELECT });
   //let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:stepValues[0].idDuree}, type: QueryTypes.SELECT});
 
   let stepDetails = {
-    'id': stepValues[0].idElp ,
-    'title': stepValues[0].licElp,
-    'description': stepValues[0].descriptionElp,
-    'context':  stepValues[0].contexteElp,
-    'content':  stepValues[0].contenuElp,
+    'id': stepValues[0]!.idElp ,
+    'title': stepValues[0]!.licElp,
+    'description': stepValues[0]!.descriptionElp,
+    'context':  stepValues[0]!.contexteElp,
+    'content':  stepValues[0]!.contenuElp,
     /*'cm': duree[0].hCM,
     'cmtd': duree[0].hCMTD,
     'td': duree[0].hTD,
@@ -123,7 +123,7 @@ export const getModuleFromStep = async (idStep : number) => {
 
   let i= 0;
   for (const period of periods){
-    let modules = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idModule" FROM sagesse.flat_elps f WHERE f."idPeriode" = :id ) ; ', {replacements: {id:period.idElp, type:'module'}, type: QueryTypes.SELECT });
+    let modules: any = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idModule" FROM sagesse.flat_elps f WHERE f."idPeriode" = :id ) ; ', {replacements: {id:period.idElp, type:'module'}, type: QueryTypes.SELECT });
 
     let categoryArray = [];
     for (const module of modules){
@@ -136,16 +136,16 @@ export const getModuleFromStep = async (idStep : number) => {
         moduleWithCategory.category = 'this UE doesn\'t have a category for the moment';
       }
       else{
-        moduleWithCategory.category = cat[0].category;
+        moduleWithCategory.category = cat[0]!.category;
       }
       categoryArray.push(moduleWithCategory);
     }
 
     stepDetails.periods.push({
-      'id': period.idElp ,
-      'code': period.codElp,
-      'title': period.licElp,
-      'credit': period.nbCrdElp,
+      'id': period!.idElp ,
+      'code': period!.codElp,
+      'title': period!.licElp,
+      'credit': period!.nbCrdElp,
       'modules': [] as any
     });
 
@@ -169,18 +169,18 @@ export const getModuleFromStep = async (idStep : number) => {
 export const getPeriodDetails = async (idPeriod: number) => {
   console.log('BEGIN get period '+idPeriod);
 
-  let periodValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idPeriod}, type: QueryTypes.SELECT });
+  let periodValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idPeriod}, type: QueryTypes.SELECT });
 
   if (periodValues.length == 0){
     throw TypeError('Semestre not found');
   }
 
   let periodDetails = {
-    'id': periodValues[0].idElp ,
-    'title': periodValues[0].licElp,
-    'description': periodValues[0].descriptionElp,
-    'context':  periodValues[0].contexteElp,
-    'content':  periodValues[0].contenuElp,
+    'id': periodValues[0]!.idElp ,
+    'title': periodValues[0]!.licElp,
+    'description': periodValues[0]!.descriptionElp,
+    'context':  periodValues[0]!.contexteElp,
+    'content':  periodValues[0]!.contenuElp,
     'modules':[] as any
   };
 
@@ -205,13 +205,13 @@ export const getPeriodDetails = async (idPeriod: number) => {
 export const getModuleDetails = async (idModule: number) => {
   console.log('BEGIN get step '+idModule);
 
-  let moduleValues = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idModule}, type: QueryTypes.SELECT });
+  let moduleValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idModule}, type: QueryTypes.SELECT });
   if (moduleValues.length == 0){
     throw TypeError('Module not found');
   }
 
-  let subjects = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idMatiere" FROM sagesse.flat_elps f WHERE f."idModule" = :id ) ; ', {replacements: {id:idModule, type:'matière'}, type: QueryTypes.SELECT });
-  let idParent = await db.query('SELECT f."idPeriode", f."idEtape" FROM sagesse.flat_elps f WHERE f."idModule" = :id', {replacements: {id:idModule}, type: QueryTypes.SELECT });
+  let subjects: any = await db.query('SELECT * FROM sagesse.elps e WHERE e."natElp" = :type AND e."idElp" IN (SELECT DISTINCT f."idMatiere" FROM sagesse.flat_elps f WHERE f."idModule" = :id ) ; ', {replacements: {id:idModule, type:'matière'}, type: QueryTypes.SELECT });
+  let idParent: any = await db.query('SELECT f."idPeriode", f."idEtape" FROM sagesse.flat_elps f WHERE f."idModule" = :id', {replacements: {id:idModule}, type: QueryTypes.SELECT });
 
   let cat : moduleCategory[] = await moduleCategory.findAll({
     attributes: ['category'],
@@ -228,35 +228,35 @@ export const getModuleDetails = async (idModule: number) => {
 
   let moduleDetails : any ;
 
-  if(moduleValues[0].idDuree!=null){
-    let duree = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:moduleValues[0].idDuree}, type: QueryTypes.SELECT});
+  if(moduleValues[0]!.idDuree!=null){
+    let duree: any = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:moduleValues[0]!.idDuree}, type: QueryTypes.SELECT});
     moduleDetails = {
-      'id': moduleValues[0].idElp ,
-      'title': moduleValues[0].licElp,
-      'description': moduleValues[0].descriptionElp,
-      'context':  moduleValues[0].contexteElp,
-      'content':  moduleValues[0].contenuElp,
-      'idParentStep': idParent[0].idEtape,
-      'idParentSemester': idParent[0].idPeriode,
+      'id': moduleValues[0]!.idElp ,
+      'title': moduleValues[0]!.licElp,
+      'description': moduleValues[0]!.descriptionElp,
+      'context':  moduleValues[0]!.contexteElp,
+      'content':  moduleValues[0]!.contenuElp,
+      'idParentStep': idParent[0]!.idEtape,
+      'idParentSemester': idParent[0]!.idPeriode,
       'category': category,
-      'cm': duree[0].hCM,
-      'cmtd': duree[0].hCMTD,
-      'td': duree[0].hTD,
-      'tp': duree[0].hTP,
-      'terrain': duree[0].hTerrain,
-      'projet': duree[0].hProjet,
+      'cm': duree[0]!.hCM,
+      'cmtd': duree[0]!.hCMTD,
+      'td': duree[0]!.hTD,
+      'tp': duree[0]!.hTP,
+      'terrain': duree[0]!.hTerrain,
+      'projet': duree[0]!.hProjet,
       'subjects':[] as any
     };
   }
   else{
     moduleDetails = {
-      'id': moduleValues[0].idElp ,
-      'title': moduleValues[0].licElp,
-      'description': moduleValues[0].descriptionElp,
-      'context':  moduleValues[0].contexteElp,
-      'content':  moduleValues[0].contenuElp,
-      'idParentStep': idParent[0].idEtape,
-      'idParentSemester': idParent[0].idPeriode,
+      'id': moduleValues[0]!.idElp ,
+      'title': moduleValues[0]!.licElp,
+      'description': moduleValues[0]!.descriptionElp,
+      'context':  moduleValues[0]!.contexteElp,
+      'content':  moduleValues[0]!.contenuElp,
+      'idParentStep': idParent[0]!.idEtape,
+      'idParentSemester': idParent[0]!.idPeriode,
       'category': category,
       'subjects':[] as any
     };
@@ -279,18 +279,18 @@ export const getModuleDetails = async (idModule: number) => {
 
 export const getSubjectDetails = async (idSubject: number) => {
   console.log('BEGIN get step '+idSubject);
-  let subjectValues = await db.query('SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ',{replacements: {id:idSubject}, type: QueryTypes.SELECT });
+  let subjectValues: any = await db.query('SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ',{replacements: {id:idSubject}, type: QueryTypes.SELECT });
 
   if (subjectValues.length == 0){
     throw TypeError('Matière not found');
   }
 
   let subjectDetails = {
-    'id': subjectValues[0].idElp ,
-    'title': subjectValues[0].licElp,
-    'description': subjectValues[0].descriptionElp,
-    'context':  subjectValues[0].contexteElp,
-    'content':  subjectValues[0].contenuElp
+    'id': subjectValues[0]!.idElp ,
+    'title': subjectValues[0]!.licElp,
+    'description': subjectValues[0]!.descriptionElp,
+    'context':  subjectValues[0]!.contexteElp,
+    'content':  subjectValues[0]!.contenuElp
   };
   return subjectDetails;
 };
