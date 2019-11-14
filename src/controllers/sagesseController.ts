@@ -1,4 +1,4 @@
-const { Sequelize, QueryTypes } = require('sequelize');
+const { QueryTypes } = require('sequelize');
 //const db = new Sequelize(process.env.SAGESSE_DATABASE_NAME!, process.env.SAGESSE_USER!, process.env.SAGESSE_PASSWORD!, {host: process.env.SAGESSE_HOST!, port: process.env.SAGESSE_PORT!, dialect: 'postgres', native: true, quoteIdentifiers: true});
 import moduleCategory from '../models/moduleCategory';
 import { db } from '../config/sagesse_database';
