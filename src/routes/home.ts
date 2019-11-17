@@ -2,6 +2,7 @@ import homeController from '../controllers/homeController';
 import { Router, Request, Response } from 'express';
 import checkJwt from '../middlewares/auth.middleware';
 import Home from '../models/home';
+import logger from '../helpers/logger';
 const homeRouter = Router();
 
 //Get  all ellements in Home from the API and send it
@@ -10,6 +11,7 @@ homeRouter.get('/', async (req: Request, res: Response) => {
   try {
     const homes: Home[] = await homeController.displayHome();
     res.status(200).json(homes);
+    logger.info('Getting Home elements OK');
   } catch (e) {
     res.status(500).json(e.message);
   }
@@ -26,6 +28,7 @@ homeRouter.post('/', [checkJwt], async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     await homeController.addElementInHome(elemhome);
+    logger.info(`Home element created with title ${elemhome.title}`);
     res.sendStatus(201);
   } catch (e) {
     res.status(500).json(e.message);
@@ -47,6 +50,7 @@ homeRouter.put('/modifier/:id', [checkJwt], async (req: Request, res: Response) 
     if (homeElem[0] == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Home with id : ${req.params.login} doesn't exists when asking for update`);
       res.sendStatus(404);
     }
   } catch (e) {
@@ -62,6 +66,7 @@ homeRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Respon
     if (homeElem == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Home with id : ${req.params.login} doesn't exists when asking for update`);
       res.sendStatus(404);
     }
   } catch (e) {
