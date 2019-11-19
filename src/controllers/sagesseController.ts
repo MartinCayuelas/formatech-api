@@ -296,7 +296,11 @@ export const getSubjectDetails = async (idSubject: number) => {
     'context':  subjectValues[0]!.contexteElp,
     'content':  subjectValues[0]!.contenuElp,
     'nomFormateur': subjectValues[0]!.nomFormateur,
-    'prenomFormateur': subjectValues[0]!.prenomFormateur
+    'prenomFormateur': subjectValues[0]!.prenomFormateur,
+    'hCM': subjectValues[0]!.hCM,
+    'hCMTD': subjectValues[0]!.hCMTD,
+    'hTD': subjectValues[0]!.hTD,
+    'hTP': subjectValues[0]!.hTP
   };
   return subjectDetails;
 };
