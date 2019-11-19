@@ -285,22 +285,44 @@ export const getSubjectDetails = async (idSubject: number) => {
   console.log('BEGIN get step '+idSubject);
   let subjectValues: any = await db.query('SELECT * FROM syllabus.syl_elps s LEFT JOIN syllabus.formateur_generalise fg ON (s."idSylElp" = fg."idSylElp") LEFT JOIN syllabus.formateurs f ON (fg."idFormateur" = f."idFormateur") WHERE s."idElp" = :id ; ',{replacements: {id:idSubject}, type: QueryTypes.SELECT });
 
+
+
+
   if (subjectValues.length == 0){
     throw TypeError('Matière not found');
   }
 
-  let subjectDetails = {
-    'id': subjectValues[0]!.idElp ,
-    'title': subjectValues[0]!.licElp,
-    'description': subjectValues[0]!.descriptionElp,
-    'context':  subjectValues[0]!.contexteElp,
-    'content':  subjectValues[0]!.contenuElp,
-    'nomFormateur': subjectValues[0]!.nomFormateur,
-    'prenomFormateur': subjectValues[0]!.prenomFormateur,
-    'hCM': subjectValues[0]!.hCM,
-    'hCMTD': subjectValues[0]!.hCMTD,
-    'hTD': subjectValues[0]!.hTD,
-    'hTP': subjectValues[0]!.hTP
-  };
+  let subjectDetails : any ;
+
+  if(subjectValues[0]!.idDuree!=null){
+    let duree: any = await db.query('SELECT * FROM syllabus.durees d WHERE d."idDuree" = :idDuree ;',{replacements: {idDuree:subjectValues[0].idDuree}, type: QueryTypes.SELECT});
+
+    subjectDetails = {
+      'id': subjectValues[0]!.idElp ,
+      'title': subjectValues[0]!.licElp,
+      'description': subjectValues[0]!.descriptionElp,
+      'context':  subjectValues[0]!.contexteElp,
+      'content':  subjectValues[0]!.contenuElp,
+      'nomFormateur': subjectValues[0]!.nomFormateur,
+      'prenomFormateur': subjectValues[0]!.prenomFormateur,
+      'cm': duree[0]!.hCM,
+      'cmtd': duree[0]!.hCMTD,
+      'td': duree[0]!.hTD,
+      'tp': duree[0]!.hTP,
+      'terrain': duree[0]!.hTerrain,
+      'projet': duree[0]!.hProjet,
+    };
+  }
+  else{
+    subjectDetails = {
+      'id': subjectValues[0]!.idElp ,
+      'title': subjectValues[0]!.licElp,
+      'description': subjectValues[0]!.descriptionElp,
+      'context':  subjectValues[0]!.contexteElp,
+      'content':  subjectValues[0]!.contenuElp,
+      'nomFormateur': subjectValues[0]!.nomFormateur,
+      'prenomFormateur': subjectValues[0]!.prenomFormateur,
+    };
+  }
   return subjectDetails;
 };
