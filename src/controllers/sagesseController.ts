@@ -205,7 +205,7 @@ export const getPeriodDetails = async (idPeriod: number) => {
 export const getModuleDetails = async (idModule: number) => {
   console.log('BEGIN get step '+idModule);
 
-  let moduleValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ', {replacements: {id:idModule}, type: QueryTypes.SELECT });
+  let moduleValues: any = await db.query( 'SELECT * FROM syllabus.syl_elps s LEFT JOIN syllabus.formateur_generalise fg ON (s."idSylElp" = fg."idSylElp") LEFT JOIN syllabus.formateurs f ON (fg."idFormateur" = f."idFormateur") WHERE s."idElp" = :id ; ', {replacements: {id:idModule}, type: QueryTypes.SELECT });
   if (moduleValues.length == 0){
     throw TypeError('Module not found');
   }
@@ -236,6 +236,8 @@ export const getModuleDetails = async (idModule: number) => {
       'description': moduleValues[0]!.descriptionElp,
       'context':  moduleValues[0]!.contexteElp,
       'content':  moduleValues[0]!.contenuElp,
+      'nomFormateur': moduleValues[0]!.nomFormateur,
+      'prenomFormateur': moduleValues[0]!.prenomFormateur,
       'idParentStep': idParent[0]!.idEtape,
       'idParentSemester': idParent[0]!.idPeriode,
       'category': category,
@@ -255,6 +257,8 @@ export const getModuleDetails = async (idModule: number) => {
       'description': moduleValues[0]!.descriptionElp,
       'context':  moduleValues[0]!.contexteElp,
       'content':  moduleValues[0]!.contenuElp,
+      'nomFormateur': moduleValues[0]!.nomFormateur,
+      'prenomFormateur': moduleValues[0]!.prenomFormateur,
       'idParentStep': idParent[0]!.idEtape,
       'idParentSemester': idParent[0]!.idPeriode,
       'category': category,
@@ -279,7 +283,7 @@ export const getModuleDetails = async (idModule: number) => {
 
 export const getSubjectDetails = async (idSubject: number) => {
   console.log('BEGIN get step '+idSubject);
-  let subjectValues: any = await db.query('SELECT * FROM syllabus.syl_elps s WHERE s."idElp" = :id ; ',{replacements: {id:idSubject}, type: QueryTypes.SELECT });
+  let subjectValues: any = await db.query('SELECT * FROM syllabus.syl_elps s LEFT JOIN syllabus.formateur_generalise fg ON (s."idSylElp" = fg."idSylElp") LEFT JOIN syllabus.formateurs f ON (fg."idFormateur" = f."idFormateur") WHERE s."idElp" = :id ; ',{replacements: {id:idSubject}, type: QueryTypes.SELECT });
 
   if (subjectValues.length == 0){
     throw TypeError('Matière not found');
@@ -290,7 +294,9 @@ export const getSubjectDetails = async (idSubject: number) => {
     'title': subjectValues[0]!.licElp,
     'description': subjectValues[0]!.descriptionElp,
     'context':  subjectValues[0]!.contexteElp,
-    'content':  subjectValues[0]!.contenuElp
+    'content':  subjectValues[0]!.contenuElp,
+    'nomFormateur': subjectValues[0]!.nomFormateur,
+    'prenomFormateur': subjectValues[0]!.prenomFormateur
   };
   return subjectDetails;
 };

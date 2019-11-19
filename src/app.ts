@@ -18,7 +18,7 @@ const dd_options = {
 const app = express();
 const port = process.env.SERVERPORT;
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://formatech.igpolytech.fr', 'https://formatech.igpolytech.fr'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://formatech.igpolytech.fr', 'https://formatech.igpolytech.fr', 'https://mydash.igpolytech.fr', 'https://mydash-dev.igpolytech.fr'];
 app.use(cors({
   origin: function (origin, callback) {    // allow requests with no origin
     // (like mobile apps or curl requests)
