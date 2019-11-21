@@ -336,8 +336,8 @@ export const getModulesAndSubjectsByTeacher = async (firstname: String, lastname
   }
 
   const modulesAndSubjectsDetails = {
-    type: modulesAndSubjectsValues.map((row: any) => row!.natElp),
-    id: modulesAndSubjectsValues.map((row: any) => row!.idElp)
+    'type': modulesAndSubjectsValues.map((row: any) => row!.natElp),
+    'id': modulesAndSubjectsValues.map((row: any) => row!.idElp)
   };
   return modulesAndSubjectsDetails;
 };
