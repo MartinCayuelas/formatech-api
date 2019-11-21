@@ -328,7 +328,7 @@ export const getSubjectDetails = async (idSubject: number) => {
 };
 
 export const getModulesAndSubjectsByTeacher = async (firstname: String, lastname: String) => {
-  console.log('BEGIN get modules and subjects of ' + firstname + ' ' + lastname)
+  console.log('BEGIN get modules and subjects of ' + firstname + ' ' + lastname);
   const modulesAndSubjectsValues: any = await db.query('SELECT * FROM syllabus."formateurs" f, syllabus."formateur_generalise" fg, syllabus."SylElp_requiert_Elp" x, sagesse."elps" e, sagesse."parcours" p WHERE f."idFormateur" = fg."idFormateur" AND fg."idSylElp" = x."idSylElp" AND x."idElp" = e."idElp" AND e."idParcours" = p."idParcours" AND f."prenomFormateur" = :firstname AND f."nomFormateur" = :lastname ;',{replacements: {firstname:firstname, lastname: lastname}, type: QueryTypes.SELECT });
 
   if (modulesAndSubjectsValues.length == 0){
