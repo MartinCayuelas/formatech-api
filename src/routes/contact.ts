@@ -2,14 +2,16 @@ import contactController from '../controllers/contactController';
 import checkJwt from '../middlewares/auth.middleware';
 import { Router, Request, Response } from 'express';
 import Contact from '../models/contact';
+import logger from '../helpers/logger';
 const contactRouter = Router();
 
-//Get a text from the API and send it
+//Get  all ellements in Contact from the API and send it
 contactRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     const contacts: Contact[] = await contactController.displayContacts();
     res.status(200).json(contacts);
+    logger.info('Getting contacts OK');
   } catch (e) {
     res.status(500).json(e.message);
   }
@@ -28,6 +30,7 @@ contactRouter.post('/', [checkJwt], async (req: Request, res: Response) => {
     await contactController.addElementInContact(elemContact);
     res.sendStatus(201);
   } catch (e) {
+    logger.error('Error when creating contact');
     res.status(500).json(e.message);
   }
 });
@@ -46,6 +49,7 @@ contactRouter.put('/modifier/:id', [checkJwt], async (req: Request, res: Respons
     if (contactElem[0] == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Contact with id : ${req.params.login} doesn't exists when asking for update`);
       res.sendStatus(404);
     }
   } catch (e) {
@@ -61,6 +65,7 @@ contactRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Res
     if (contactElem == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Contact with id : ${req.params.login} doesn't exists when asking for deleting`);
       res.sendStatus(404);
     }
   } catch (e) {

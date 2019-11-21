@@ -1,6 +1,12 @@
 import User from '../models/user';
 import { hashPassword } from '../helpers/password.helper';
 
+function getAllUsers(): Promise<User[]> {
+  return User.findAll({
+    order: [['idUser', 'ASC']]
+  });
+}
+
 function getUserByLogin(loginToCkeck: string): Promise<User> {
   return User.findOne({
     where: {
@@ -20,4 +26,11 @@ async function addUser(login: string, password: string): Promise<User | undefine
   }
 }
 
-export = { getUserByLogin, addUser };
+function deleteUser(id: string): Promise<number> {
+  return User.destroy({
+    where: {
+      idUser: id
+    }
+  });
+}
+export = { getUserByLogin, addUser, deleteUser, getAllUsers };

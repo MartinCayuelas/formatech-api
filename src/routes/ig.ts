@@ -2,14 +2,16 @@ import igController from '../controllers/igController';
 import { Router, Request, Response } from 'express';
 import checkJwt from '../middlewares/auth.middleware';
 import Ig from '../models/ig';
+import logger from '../helpers/logger';
 const igRouter = Router();
 
-//Get a text from the API and send it
+//Get all ellements in IG from the API and send it
 igRouter.get('/', async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     const igs: Ig[] = await igController.displayIg();
     res.status(200).json(igs);
+    logger.info('Getting Ig elements OK');
   } catch (e) {
     res.status(500).json(e.message);
   }
@@ -26,6 +28,7 @@ igRouter.post('/', [checkJwt], async (req: Request, res: Response) => {
   res.type('application/json');
   try {
     await igController.addElementInIg(elemig);
+    logger.info(`Ig element created with title ${elemig.title}`);
     res.sendStatus(201);
   } catch (e) {
     res.status(500).json(e.message);
@@ -47,6 +50,7 @@ igRouter.put('/modifier/:id', [checkJwt], async (req: Request, res: Response) =>
     if (igElem[0] == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Ig with id : ${req.params.id} doesn't exists when asking for update`);
       res.sendStatus(404);
     }
   } catch (e) {
@@ -62,6 +66,7 @@ igRouter.delete('/supprimer/:id', [checkJwt], async (req: Request, res: Response
     if (igElem == 1) {
       res.sendStatus(200);
     } else {
+      logger.error(`Ig with id : ${req.params.id} doesn't exists when asking for delete`);
       res.sendStatus(404);
     }
   } catch (e) {

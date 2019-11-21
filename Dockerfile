@@ -14,6 +14,11 @@ COPY ./datadog/conf.d/nodejs.d ./nodejs.d
 
 WORKDIR /usr/src/app
 
+RUN echo "     deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update
+RUN apt-get install postgresql-11 -y
+
 COPY . .
 
 RUN npm install
