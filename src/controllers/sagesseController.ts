@@ -336,11 +336,13 @@ export const getSubjectsByTeacher = async (firstname: String, lastname: String) 
     throw TypeError('Teacher not found');
   }
 
-  const subjectsDetails = subjectsValues.map((row: any) => {
-    return {
-      'code': row!.codeElp,
-      'id': row!.idElp
-    };
+  let subjectsDetails: Array<any> = [];
+  subjectsValues.forEach((subject: any) => {
+    subjectsDetails.push({
+      'code': subject!.codeElp,
+      'id': subject!.idElp
+    });
   });
+
   return subjectsDetails;
 };
