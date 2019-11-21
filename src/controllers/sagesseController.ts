@@ -335,13 +335,14 @@ export const getSubjectsByTeacher = async (firstname: String, lastname: String) 
   if (subjectsValues.length == 0){
     throw TypeError('Teacher not found');
   }
-
-  return Promise.all(subjectsValues.map((subject: any) => {
+  const result: any = {};
+  result.subjects = Promise.all(subjectsValues.map((subject: any) => {
     return {
       'code': subject!.codeElp,
       'id': subject!.idElp
     };
-  })).then((subjects: Array<any>) => {
+  })).then((subjects: Array<unknown>) => {
     return subjects;
   });
+  return result;
 };
