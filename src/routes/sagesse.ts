@@ -10,7 +10,7 @@ import {
   getModuleDetails,
   getPeriodDetails,
   getStepDetails,
-  getModulesAndSubjectsByTeacher
+  getSubjectsByTeacher
 } from '../controllers/sagesseController';
 
 import { Router, Request, Response } from 'express';
@@ -132,7 +132,7 @@ sagesseRouter.get('/step/:id/modules', (req: Request, res: Response) => {
 
 sagesseRouter.get('/teacher/:firstname/:lastname', (req: Request, res: Response) => {
 
-  getModulesAndSubjectsByTeacher(req.params.firstname, req.params.lastname)
+  getSubjectsByTeacher(req.params.firstname, req.params.lastname)
     .then((resultList: Object) => {
       res.type('application/json');
       res.status(200);
