@@ -3,7 +3,15 @@ import { getModuleDetails } from '../controllers/Module';
 import { getSemesterDetails } from '../controllers/Semester';
 import { getStepDetails } from '../controllers/Step';
 import { getFormationDetails } from '../controllers/Formation';*/
-import { getModuleFromStep, getFormationDetails, getSubjectDetails, getModuleDetails, getPeriodDetails, getStepDetails } from '../controllers/sagesseController';
+import {
+  getModuleFromStep,
+  getFormationDetails,
+  getSubjectDetails,
+  getModuleDetails,
+  getPeriodDetails,
+  getStepDetails,
+  getModulesAndSubjectsByTeacher
+} from '../controllers/sagesseController';
 
 import { Router, Request, Response } from 'express';
 const sagesseRouter = Router();
@@ -116,6 +124,21 @@ sagesseRouter.get('/step/:id/modules', (req: Request, res: Response) => {
       res.send(modulesFromStep);
     })
     .catch( (error : any) => {
+      res.type('text/html');
+      res.status(404);
+      res.send('<h2>'+error+'</h2>');
+    });
+});
+
+sagesseRouter.get('/teacher/:firstname/:lastname', (req: Request, res: Response) => {
+
+  getModulesAndSubjectsByTeacher(req.params.firstname, req.params.lastname)
+    .then((resultList: Object) => {
+      res.type('application/json');
+      res.status(200);
+      res.send(resultList);
+    })
+    .catch( (error: any) => {
       res.type('text/html');
       res.status(404);
       res.send('<h2>'+error+'</h2>');
