@@ -11,6 +11,11 @@ Projet réalisé par :
 
 Ce projet représente la partie serveur de l'application Formatech qui est une application à but informatif pour les élèves en *IG* et *DO* à Polytech Montpellier.
 
+### Technos
+![image](https://user-images.githubusercontent.com/23449337/69442747-65377e80-0d4d-11ea-973a-550075a64400.png)
+![image](https://user-images.githubusercontent.com/23449337/69442822-87c99780-0d4d-11ea-9617-765628e1f9c3.png)
+
+
 ## Installation 
 ### Mise en place
 ```
