@@ -2,6 +2,7 @@ const { QueryTypes } = require('sequelize');
 //const db = new Sequelize(process.env.SAGESSE_DATABASE_NAME!, process.env.SAGESSE_USER!, process.env.SAGESSE_PASSWORD!, {host: process.env.SAGESSE_HOST!, port: process.env.SAGESSE_PORT!, dialect: 'postgres', native: true, quoteIdentifiers: true});
 import moduleCategory from '../models/moduleCategory';
 import { db } from '../config/sagesse_database';
+import logger from '../helpers/logger';
 
 
 
@@ -327,10 +328,13 @@ export const getSubjectDetails = async (idSubject: number) => {
   return subjectDetails;
 };
 
+
+
 export const getSubjectsByTeacher = async (firstname: String, lastname: String) => {
   console.log('BEGIN get modules and subjects of ' + firstname + ' ' + lastname);
   const subjectsValues: any = await db.query('SELECT * FROM syllabus."formateurs" f, syllabus."formateur_generalise" fg, syllabus."syl_elps" se, sagesse."elps" e, sagesse."parcours" p WHERE f."idFormateur" = fg."idFormateur" AND fg."idSylElp" = se."idSylElp" AND se."idElp" = e."idElp" AND e."idParcours" = p."idParcours" AND e."natElp" = \'matière\' AND f."prenomFormateur" = :firstname AND f."nomFormateur" = :lastname',{replacements: {firstname:firstname, lastname: lastname}, type: QueryTypes.SELECT });
 
+  logger.info('WAAAAAAAAAAAAAAAAA : '+subjectsValues);
 
   if (subjectsValues.length == 0){
     throw TypeError('Teacher not found');
@@ -338,8 +342,10 @@ export const getSubjectsByTeacher = async (firstname: String, lastname: String) 
   const result: any = {};
 
   result.subjects = await Promise.all(subjectsValues.map(async (subject: any) => {
+    logger.info('OOOOOOOOOOOOOOOOOOOOOOOOOO : '+subject);
     const subjectId: number = parseInt(subject!.idElp);
     const subjectDetail = await getSubjectDetails(subjectId);
+    logger.info('IIIIIIIIIIIIIIIIIIIIIII : '+subjectDetail);
     return {
       'code': subject!.codeElp,
       'subject': subjectDetail
