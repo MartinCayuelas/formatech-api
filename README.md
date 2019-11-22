@@ -157,3 +157,8 @@ Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
 ![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/subject/:id`` -  Renvoie les informations détaillées de la matière.
   - 200 - Il y a des éléments à renvoyer
   - 404 - Matière non trouvée
+  
+  
+![#1c7cf0 ](https://placehold.it/15/1c7cf0/000000?text=+) **GET** - ``/sagesse/teacher/:firstname/:lastname`` -  Renvoie les matières de l'enseignant dont le nom et le prénom est passé en paramètre.
+  - 200 - Il y a des éléments à renvoyer
+  - 404 - Professeur non trouvé
