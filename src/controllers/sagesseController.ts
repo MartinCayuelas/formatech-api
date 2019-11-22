@@ -341,9 +341,10 @@ export const getSubjectsByTeacher = async (firstname: String, lastname: String) 
 
   result.subjects = await Promise.all(subjectsValues.map(async (subject: any) => {
     const subjectId: number = parseInt(subject!.idElp);
+    const codParcours: String = subject!.codParcours;
     const subjectDetail = await getSubjectDetails(subjectId);
     return {
-      'code': subject!.codeElp,
+      'code': codParcours,
       'subject': subjectDetail
     };
   })).then((subjects: Array<unknown>) => {
