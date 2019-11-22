@@ -1,10 +1,53 @@
-# Formatech-api
+# Formatech-API
 
-Backend side of the Formatech application.
+## Informations
+Projet réalisé par :
+ - Martin **CAYUELAS** : [see on Github](https://github.com/MartinCayuelas)
+ - Thomas **FALCONE** : [see on Github](https://github.com/ThomasF34)
+ - Lucas **GONCALVES** : [see on Github](https://github.com/igwall)
+ - Raphaël **LUCIANO** : [see on Github](https://github.com/raphell)
+ - Fatima **MACHHOURI**  : [see on Github](https://github.com/FatimaMachhouri)
+ - Inès **MISSOUM-BENZIANE** : [see on Github](https://github.com/ines-missoum)
 
-Team : Lucas Gonçalves, Inès Missoum, Fatima Machhouri, Thomas Falcone, Raphael
-Luciano, Martin Cayuelas
+Ce projet représente la partie serveur de l'application Formatech qui est une application à but informatif pour les élèves en *IG* et *DO* à Polytech Montpellier.
 
+## Installation 
+### Mise en place
+```
+    git clone https://github.com/MartinCayuelas/formatech-api
+    cd formatech-api
+    npm run build
+    npm start
+
+```
+-------------
+    
+### Déploiement
+
+  ```
+apps:create api-formatech
+apps:create test-api-formatech
+
+docker-options:add api-formatech build --build-arg "DD_API_KEY=<datadog api key>"
+docker-options:add test-api-formatech build --build-arg "DD_API_KEY=<datadog api key>"
+
+config:set api-formatech DD_API_KEY=<datadog api key>
+config:set test-api-formatech DD_API_KEY=<datadog api key>
+
+proxy:ports-add api-formatech http:80:3000
+proxy:ports-add test-api-formatech http:80:3000
+```
+
+Après cela vous aurez besoin de mettre en place les variables d'environnements ``ENV`` comme dans le modèle suivant :
+``SERVERPORT=***
+DATABASE_URL=***
+SECRET_KEY_JWT=***
+SAGESSE_DATABASE_NAME=***
+SAGESSE_USER=***
+SAGESSE_PASSWORD=***
+SAGESSE_HOST=***
+SAGESSE_PORT=***
+``
 ## Routes
 
 Chaque route peut renvoyer un code 500 en cas d'erreur du côté du serveur
